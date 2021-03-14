@@ -1,0 +1,15 @@
+#Some of us use vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+#Some of us use vim
+*.swp
+
+build/*
