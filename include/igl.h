@@ -71,6 +71,15 @@ void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int c_width, unsigned int c_height);
 
 /*
+ * Updates the component grid and user module based on
+ * mouse event `evt`
+ *
+ * @param evt   mouse evnet
+ * @return      0 if successful non-zero otherwise
+ */
+int igl_mouse_update(mouse_event_t evt);
+
+/*
  * Frees all memory igl malloced
  *
  * Mostly used for testing purposes
@@ -83,15 +92,6 @@ void igl_clean(void);
  * @return      igl_config_t created in init
  */
 igl_config_t* igl_get_config(void);
-
-/*
- * Updates the component grid and user module based on
- * mouse event `evt`
- *
- * @param evt   mouse evnet
- * @return      0 if successful non-zero otherwise
- */
-int igl_update_mouse(mouse_event_t evt);
 
 /*
  * Creates a component that spans width rows and
