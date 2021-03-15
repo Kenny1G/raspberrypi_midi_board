@@ -1,3 +1,5 @@
+# Warning
+It's been 1 hour and this is already outdated. Use the h file instead.
 # Overview
 Using user provided gird\_(width/height), represents the framebuffer as a 
 grid of components, some components have an onclick function 
