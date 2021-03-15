@@ -1,9 +1,9 @@
 MODULES = igl.o instrument.o
 
-NAME = build/main
+NAME = instrument
 
 # Targets for this makefile
-APPLICATION = $(NAME).bin
+APPLICATION = build/$(NAME).bin
 TEST = 
 
 CFLAGS = -I$(CS107E)/include -g -Wall -Og -std=c99 -ffreestanding
