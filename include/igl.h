@@ -24,7 +24,7 @@ typedef struct {
     unsigned int pointer_size;
     int x;
     int y;
-    color_t* content_beneath;
+    color_t* pixels_beneath;
 
 } igl_mouse_t;
 
@@ -47,7 +47,9 @@ typedef struct {
     unsigned int col; //num of columns in representational grid
     unsigned int res_width; //physical width of framebuffer
     unsigned int res_height;//physical height of framebuffer
-    igl_mouse_t mp; //mouse pointer
+    unsigned int c_width; //width of each component
+    unsigned int c_height;//height of each component
+    igl_mouse_t* mp; //mouse pointer
     igl_component_t* grid; //pointer to 2d array of components
     color_t background;
 } igl_config_t;
@@ -57,12 +59,25 @@ typedef struct {
  * required resolution to house a row by col grid
  * minimum resolution is 800 x 600
  *
- * @param row  number of rows of the grid
- * @param col  number of columns of the grid
- * @backgroung background color
+ * @param res_width  width of resolution
+ * @param res_height height of resolution
+ * @param row        number of rows of the grid
+ * @param col        number of columns of the grid
+ * @param background background color
+ * @param c_width    width of each component grid
+ * @param c_height   height of each component grid
  * @return     0 if successful non-zero otherwise
  */
-int igl_int(unsigned int row, unsigned int col, color_t background);
+int igl_init(unsigned int res_width, unsigned int res_height,
+        unsigned int row, unsigned int col, color_t background,
+        unsigned int c_width, unsigned int c_height);
+
+/*
+ * Returns config
+ *
+ * @return      igl_config_t created in init
+ */
+igl_config_t* igl_get_config(void);
 
 /*
  * Updates the component grid and user module based on
@@ -100,4 +115,12 @@ igl_component_t*  igl_create_component(int x, int y,
  * @return              0 if successful non-zero otherwise
  */
 int igl_set_onclick(igl_component_t* component, onclick_fn_t fn);
+
+/* Getters for igl dimensions */
+unsigned int igl_get_res_width(void);
+unsigned int igl_get_res_height(void);
+unsigned int igl_get_c_width(void);
+unsigned int igl_get_c_height(void);
+unsigned int igl_get_row(void);
+unsigned int igl_get_col(void);
 #endif //igl.h
