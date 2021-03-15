@@ -1,12 +1,12 @@
-MODULES = igl.o instrument.o
+MODULES = igl.o
 
-NAME = instrument
 
 # Targets for this makefile
-APPLICATION = build/$(NAME).bin
+APPLICATION = build/instrument.bin
 TEST = 
+TESTLIB = build/test_igl.bin
 
-CFLAGS = -I$(CS107E)/include -g -Wall -Og -std=c99 -ffreestanding
+CFLAGS = -I$(CS107E)/include -Iinclude -g -Wall -Og -std=c99 -ffreestanding
 CFLAGS += -mapcs-frame -fno-omit-frame-pointer -mpoke-function-name -Wpointer-arith
 LDFLAGS = -nostdlib -T memmap -L. -L$(CS107E)/lib
 LDLIBS  = -lmypi -lpi -lgcc
@@ -14,7 +14,7 @@ LDLIBS  = -lmypi -lpi -lgcc
 OBJECTS = $(addprefix build/, $(MODULES))
 
 
-all : $(APPLICATION) $(TEST)
+all : $(APPLICATION) $(TEST) $(TESTLIB)
 
 # Extract binary from elf
 build/%.bin: build/%.elf | build
@@ -46,6 +46,10 @@ run: $(APPLICATION)
 
 # Build and run the test binary
 test: $(TEST)
+	rpi-run.py -p $<
+
+# Build and run the library test binary
+testlib: $(TESTLIB)
 	rpi-run.py -p $<
 
 # Remove the build directory (i.e. all the binary files).
