@@ -1,13 +1,20 @@
+MODULES = igl.o instrument.o
+
 NAME = build/main
-APPLICATION = build/main.bin
-OBJECTS =
+
+# Targets for this makefile
+APPLICATION = $(NAME).bin
+TEST = 
 
 CFLAGS = -I$(CS107E)/include -g -Wall -Og -std=c99 -ffreestanding
 CFLAGS += -mapcs-frame -fno-omit-frame-pointer -mpoke-function-name -Wpointer-arith
 LDFLAGS = -nostdlib -T memmap -L. -L$(CS107E)/lib
 LDLIBS  = -lmypi -lpi -lgcc
+# Object files needed to build the application binary.
+OBJECTS = $(addprefix build/, $(MODULES))
 
-all : $(APPLICATION)
+
+all : $(APPLICATION) $(TEST)
 
 # Extract binary from elf
 build/%.bin: build/%.elf | build
