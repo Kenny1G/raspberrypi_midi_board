@@ -73,7 +73,7 @@ Creates a button
 - BTN\_T\_TRIA
 - BTN\_T\_CHAR
 
-### igl\_set_\highlight [function]
+### igl\_set\_highlight [function]
 Sets a component to be highlighted when clicked.
 #### Parameters
 - component\* component component to be highlighted
