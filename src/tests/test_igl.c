@@ -16,11 +16,8 @@ void test_gl_init(void)
     assert(igl_get_c_height() == 90);
     assert(igl_get_row() == 2);
     assert(igl_get_col() == 5);
-    igl_config_t* cfg = igl_get_config();
-    free(cfg->grid);
-    free(cfg->mp->pixels_beneath);
-    free(cfg->mp);
-    timer_delay(2);
+    igl_clean();
+    timer_delay(1);
 
     igl_init(1920, 1080, 15,7, GL_CYAN, 10, 10);
     assert(igl_get_res_width() == 1920);
@@ -29,10 +26,7 @@ void test_gl_init(void)
     assert(igl_get_c_height() == 10);
     assert(igl_get_row() == 15);
     assert(igl_get_col() == 7);
-    cfg = igl_get_config();
-    free(cfg->grid);
-    free(cfg->mp->pixels_beneath);
-    free(cfg->mp);
+    igl_clean();
 }
 
 void test_gl_update_mouse(void)

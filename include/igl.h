@@ -66,9 +66,16 @@ typedef struct {
  * @param c_height   height of each component grid
  * @return     0 if successful non-zero otherwise
  */
-int igl_init(unsigned int res_width, unsigned int res_height,
+void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int row, unsigned int col, color_t background,
         unsigned int c_width, unsigned int c_height);
+
+/*
+ * Frees all memory igl malloced
+ *
+ * Mostly used for testing purposes
+ */
+void igl_clean(void);
 
 /*
  * Returns config

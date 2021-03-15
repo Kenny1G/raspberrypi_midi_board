@@ -3,42 +3,44 @@
 #include "strings.h"
 
 const int padding = 1;
-static igl_config_t igl;
+static igl_config_t cfg;
 
-int igl_init(unsigned int res_width, unsigned int res_height,
+void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int row, unsigned int col, color_t background,
         unsigned int c_width, unsigned int c_height) 
 {
-    igl.row = row;
-    igl.col = col;
-    igl.c_height = c_height;
-    igl.c_width = c_width;
-    gl_init(res_width, res_height, GL_DOUBLEBUFFER);
-    igl.background = background;
-    gl_clear(background);
-    gl_swap_buffer();
-    gl_clear(background);
+  cfg.row = row;
+  cfg.col = col;
+  cfg.c_height = c_height;
+  cfg.c_width = c_width;
+  gl_init(res_width, res_height, GL_DOUBLEBUFFER);
+  cfg.background = background;
+  gl_clear(background);
+  gl_swap_buffer();
+  gl_clear(background);
 
-    /*Initialize mouse*/
-    igl.mp = malloc(sizeof(igl_mouse_t));
-    igl.mp->x = res_width / 2;
-    igl.mp->y = res_height / 2;
-    int pointer_size = 12;
-    igl.mp->pointer_size = pointer_size;
-    igl.mp->pixels_beneath = malloc(sizeof(color_t)
-            * pointer_size * pointer_size);
+  /*Initialize mouse*/
+  cfg.mp = malloc(sizeof(igl_mouse_t));
+  cfg.mp->x = res_width / 2;
+  cfg.mp->y = res_height / 2;
+  int pointer_size = 12;
+  cfg.mp->pointer_size = pointer_size;
+  cfg.mp->pixels_beneath =
+      malloc(sizeof(color_t) * pointer_size * pointer_size);
 
-    /*Initialize grid*/
-    igl.grid = malloc(sizeof(igl_component_t) * row * col);
-    memset(igl.grid, 0, sizeof(igl_component_t) * row * col);
-
-    return 0;
+  /*Initialize grid*/
+  cfg.grid = malloc(sizeof(igl_component_t) * row * col);
+  memset(cfg.grid, 0, sizeof(igl_component_t) * row * col);
 }
 
-igl_config_t* igl_get_config(void)
+void igl_clean(void)
 {
-    return &igl; 
+  free(cfg.grid);
+  free(cfg.mp->pixels_beneath);
+  free(cfg.mp);
 }
+
+igl_config_t *igl_get_config(void) { return &cfg; }
 
 int igl_update_mouse(mouse_event_t evt)
 {
@@ -67,22 +69,10 @@ unsigned int igl_get_res_height(void)
     return gl_get_height(); 
 }
 
-unsigned int igl_get_c_width(void)
-{
-    return igl.c_width; 
-}
+unsigned int igl_get_c_width(void) { return cfg.c_width; }
 
-unsigned int igl_get_c_height(void)
-{
-    return igl.c_height; 
-}
+unsigned int igl_get_c_height(void) { return cfg.c_height; }
 
-unsigned int igl_get_row(void)
-{
-    return igl.row; 
-}
+unsigned int igl_get_row(void) { return cfg.row; }
 
-unsigned int igl_get_col(void)
-{
-    return igl.col; 
-}
+unsigned int igl_get_col(void) { return cfg.col; }
