@@ -8,23 +8,49 @@ should be throwing some visual error when the user tries to click a button that
 shouldn't be clicked
 
 
-# components
-- struct
+# component [struct]
 - type (enum)
-- void* to the actual component
+- void\* [ptr to the actual component]
+- highlight [bool]
+- highlight\_color [color\_t]
+
 ## Types of components
 - button 
 - view pane
-## Button 
-- grid_x
-- grid_y
-- grid_width
-- grid_height
+
+
+## Button [struct]
+- grid\_x
+- grid\_y
+- grid\_width
+- grid\_height
 - type [rect, triangle]
 - onclick function
-- created with igl_create_button
 
-### igl\_create\_button
+### onclick function
+typedef bool (\*onclick\_fn\_t)(void);
 
+### igl\_create\_button [function]
+Creates a button
+* Parameters *
+- grid\_x
+- grid\_y
+- grid\_width
+- grid\_height
+- igl\_type\_t type 
+- color\_t color
+
+### igl\_set_\highlight [function]
+Sets a component to be highlighted when clicked.
+* Parameters *
+- component\* component
+- color\_t color
+
+### igl\_set_\onclick [function]
+Sets a component to clickable and sets the onclick function
+* Parameters *
+- component\* component
+- color\_t color
+- onclick\_fn\_t fn
 
 # 
