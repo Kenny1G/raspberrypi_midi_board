@@ -18,6 +18,7 @@ void test_gl_init(void)
     assert(igl_get_col() == 5);
     igl_config_t* cfg = igl_get_config();
     free(cfg->grid);
+    free(cfg->mp->pixels_beneath);
     free(cfg->mp);
     timer_delay(2);
 
@@ -30,6 +31,7 @@ void test_gl_init(void)
     assert(igl_get_col() == 7);
     cfg = igl_get_config();
     free(cfg->grid);
+    free(cfg->mp->pixels_beneath);
     free(cfg->mp);
 }
 

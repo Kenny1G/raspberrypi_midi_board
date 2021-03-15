@@ -1,5 +1,6 @@
 #include "igl.h"
 #include "malloc.h"
+#include "strings.h"
 
 const int padding = 1;
 static igl_config_t igl;
@@ -15,9 +16,21 @@ int igl_init(unsigned int res_width, unsigned int res_height,
     gl_init(res_width, res_height, GL_DOUBLEBUFFER);
     igl.background = background;
     gl_clear(background);
+    gl_swap_buffer();
+    gl_clear(background);
 
+    /*Initialize mouse*/
     igl.mp = malloc(sizeof(igl_mouse_t));
+    igl.mp->x = res_width / 2;
+    igl.mp->y = res_height / 2;
+    int pointer_size = 12;
+    igl.mp->pointer_size = pointer_size;
+    igl.mp->pixels_beneath = malloc(sizeof(color_t)
+            * pointer_size * pointer_size);
+
+    /*Initialize grid*/
     igl.grid = malloc(sizeof(igl_component_t) * row * col);
+    memset(igl.grid, 0, sizeof(igl_component_t) * row * col);
 
     return 0;
 }
