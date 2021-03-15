@@ -19,14 +19,15 @@ void test_gl_init(void)
     igl_config_t* cfg = igl_get_config();
     free(cfg->grid);
     free(cfg->mp);
+    timer_delay(2);
 
     igl_init(1920, 1080, 15,7, GL_CYAN, 10, 10);
-    assert(igl_get_res_width() == 800);
-    assert(igl_get_res_height() == 600);
-    assert(igl_get_c_width() == 40);
-    assert(igl_get_c_height() == 90);
-    assert(igl_get_row() == 2);
-    assert(igl_get_col() == 5);
+    assert(igl_get_res_width() == 1920);
+    assert(igl_get_res_height() == 1080);
+    assert(igl_get_c_width() == 10);
+    assert(igl_get_c_height() == 10);
+    assert(igl_get_row() == 15);
+    assert(igl_get_col() == 7);
     cfg = igl_get_config();
     free(cfg->grid);
     free(cfg->mp);
@@ -43,6 +44,7 @@ void main(void)
     printf("Executing main() in test_igl.c\n");
 
     /*TODO(kenny): tests R' Us*/
+    test_gl_init();
 
     printf("Completed main() in test_igl.c\n");
     memory_report();

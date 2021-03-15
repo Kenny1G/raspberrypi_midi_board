@@ -45,8 +45,6 @@ typedef struct {
 typedef struct {
     unsigned int row; //num of rows in representational grid
     unsigned int col; //num of columns in representational grid
-    unsigned int res_width; //physical width of framebuffer
-    unsigned int res_height;//physical height of framebuffer
     unsigned int c_width; //width of each component
     unsigned int c_height;//height of each component
     igl_mouse_t* mp; //mouse pointer
