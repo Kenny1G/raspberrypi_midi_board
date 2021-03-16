@@ -10,7 +10,9 @@ typedef struct {
     int x;
     int y;
     color_t* pixels_beneath;
-
+    color_t cursor_color;
+    unsigned int res_width;
+    unsigned int res_height;
 } igl_mouse_t;
 
 void igl_mouse_init(unsigned int res_width, unsigned int res_height,

@@ -69,10 +69,10 @@ void igl_init(unsigned int res_width, unsigned int res_height,
  * Updates the component grid and user module based on
  * mouse event `evt`
  *
- * @param evt   mouse evnet
+ * @param evt   mouse event
  * @return      0 if successful non-zero otherwise
  */
-int igl_mouse_update(mouse_event_t evt);
+int igl_update_mouse(mouse_event_t evt);
 
 /*
  * Frees all memory igl malloced

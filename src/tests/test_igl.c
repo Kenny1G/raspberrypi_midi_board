@@ -5,6 +5,9 @@
 #include "malloc.h"
 #include "printf.h"
 #include "timer.h"
+#include "interrupts.h"
+#include "gpio_interrupts.h"
+#include "keyboard.h"
 extern void memory_report(void);
 
 void test_gl_init(void)
@@ -32,15 +35,36 @@ void test_gl_init(void)
 void test_gl_update_mouse(void)
 {
     /*Test mouse leaves complex framebuffer undisturbed*/
+    igl_init(1920, 1080, 10, 10, GL_CYAN, 10, 10);
+    gl_draw_triangle(100, 40, 40, 300, 700, 300, GL_RED); 
+    gl_draw_line(0, 0, 799, 599, GL_CAYENNE);
+    gl_draw_line(799, 0, 0, 599,GL_CAYENNE);
+    gl_swap_buffer();
+    gl_draw_triangle(100, 40, 40, 300, 700, 300, GL_RED); 
+    gl_draw_line(0, 0, 799, 599, GL_CAYENNE);
+    gl_draw_line(799, 0, 0, 599,GL_CAYENNE);
+    while(1) {
+        mouse_event_t evt = mouse_read_event();
+        igl_update_mouse(evt);
+        if (evt.action == MOUSE_BUTTON_PRESS && evt.middle) break;
+    }
+    igl_clean();
 }
 void main(void)
 {
     uart_init();
     timer_init();
+    interrupts_init();
+    gpio_init();
+    gpio_interrupts_init();
+    timer_init();
+    uart_init();
+    interrupts_global_enable(); 
+    mouse_init(KEYBOARD_CLOCK, KEYBOARD_DATA);
     printf("Executing main() in test_igl.c\n");
 
-    /*TODO(kenny): tests R' Us*/
-    test_gl_init();
+    //test_gl_init();
+    test_gl_update_mouse();
 
     printf("Completed main() in test_igl.c\n");
     memory_report();

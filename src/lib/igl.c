@@ -9,11 +9,13 @@ void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int row, unsigned int col, color_t background,
         unsigned int c_width, unsigned int c_height) 
 {
+    /*TODO(kenny): add in an error check that ensures row x col components of size c_width x c_height can fit in res_width x res_height*/
     cfg.row = row;
     cfg.col = col;
     cfg.c_height = c_height;
     cfg.c_width = c_width;
-    gl_init(res_width, res_height, GL_DOUBLEBUFFER);
+    /*must be single buffer because rate we draw to the screen*/
+    gl_init(res_width, res_height, GL_SINGLEBUFFER);
     cfg.background = background;
     gl_clear(background);
     gl_swap_buffer();
@@ -29,8 +31,7 @@ void igl_init(unsigned int res_width, unsigned int res_height,
 
 int igl_update_mouse(mouse_event_t evt)
 {
-    if (evt.action == MOUSE_DRAGGED || evt.action == MOUSE_MOVED)
-    { igl_mouse_update(evt); }
+    igl_mouse_update(evt);
     return 0;
 }
 
