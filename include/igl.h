@@ -11,30 +11,9 @@
  * Date: Mar 15 2021
  */
 
-#include <stdbool.h>
-#include "gl.h"
 #include "mouse.h"
 #include "igl_mouse.h"
-
-typedef enum {IGL_BUTTON, IGL_VIEW_PANE, IGL_TEXT_FIELD} igl_cmpn_type_t;
-typedef enum {IGL_BTN_RECT, IGL_BTN_TRIA, IGL_BTN_CHAR} igl_cmpn_shape_t;
-
-/*Typedef for type of function used as an onclick event handler*/
-typedef int (*onclick_fn_t)(void);
-
-typedef struct {
-    const char *name;
-    igl_cmpn_type_t type;
-    int x;
-    int y;
-    unsigned int width;
-    unsigned int height;
-    igl_cmpn_shape_t shape;
-    onclick_fn_t fn;
-    bool highlight;
-    bool hover;
-    color_t alt_colr;
-} igl_component_t;
+#include "igl_component.h"
 
 typedef struct {
     unsigned int row; //num of rows in representational grid
@@ -104,7 +83,7 @@ igl_config_t* igl_get_config(void);
  */
 igl_component_t*  igl_create_component(int x, int y, 
         unsigned int width, unsigned int height,
-        igl_cmpn_type_t type, color_t color);
+        igl_cmpn_type_t type, igl_cmpn_shape_t shape, color_t color);
 
 /*
  * Sets `component` to be clickable and registers fn
