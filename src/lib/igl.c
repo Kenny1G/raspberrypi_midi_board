@@ -2,7 +2,9 @@
 #include "malloc.h"
 #include "strings.h"
 #include "printf.h"
+#include "debug.h"
 
+//#define DOUBLEBUFF
 const int padding = 1;
 static igl_config_t cfg;
 
@@ -16,11 +18,17 @@ void igl_init(unsigned int res_width, unsigned int res_height,
     cfg.c_height = c_height;
     cfg.c_width = c_width;
     /*must be single buffer because of rate we draw to the screen*/
+#ifdef DOUBLEBUFF
+    gl_init(res_width, res_height, GL_DOUBLEBUFFER);
+#else
     gl_init(res_width, res_height, GL_SINGLEBUFFER);
+#endif
     cfg.background = background;
     gl_clear(background);
+#ifdef DOUBLEBUFF
     gl_swap_buffer();
     gl_clear(background);
+#endif
 
 
     igl_mouse_init(gl_get_width(), gl_get_height(), 12, GL_BLACK);
@@ -29,11 +37,19 @@ void igl_init(unsigned int res_width, unsigned int res_height,
     memset(cfg.grid, 0, sizeof(void*) * row * col);
 }
 
-
 int igl_update_mouse(mouse_event_t evt)
 {
     if (evt.dx != 0|| evt.dy != 0) 
         igl_mouse_update(evt);
+    /* A component is clicked if the user releases a mouse button on it*/
+    if (evt.action == MOUSE_BUTTON_RELEASE) {
+        //unsigned int grid_x = igl_mouse_get_x() % (gl_get_width() / cfg.col);
+        //unsigned int grid_y = igl_mouse_get_y() % (gl_get_height() / cfg.row);
+        //printf("grid_x: %d, grid_y: %d",grid_x, grid_y);
+        //igl_component_t *comp = cfg.grid[(grid_y * cfg.col) + grid_x];
+        //if (comp->fn != 0)
+        //    comp->fn(comp); 
+    }
     return 0;
 }
 
@@ -72,7 +88,10 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
     return 0; 
 }
 
-int igl_set_onclick(igl_component_t* component, onclick_fn_t fn) { return 0; }
+void igl_set_onclick(igl_component_t* component, onclick_fn_t fn) 
+{
+    component->fn = fn;
+}
 
 unsigned int igl_get_res_width(void) { return gl_get_width(); }
 

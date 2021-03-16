@@ -25,4 +25,6 @@ void igl_mouse_init(unsigned int res_width, unsigned int res_height,
  */
 void igl_mouse_update(mouse_event_t evt);
 void igl_mouse_clean(void);
+int igl_mouse_get_x(void);
+int igl_mouse_get_y(void);
 #endif

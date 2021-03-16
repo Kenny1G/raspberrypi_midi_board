@@ -38,7 +38,6 @@ typedef struct {
  * @param background background color
  * @param c_width    width of each component grid
  * @param c_height   height of each component grid
- * @return     0 if successful non-zero otherwise
  */
 void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int row, unsigned int col, color_t background,
@@ -91,9 +90,8 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
  * 
  * @param component     component to set to clickable
  * @param fn            function to be called when component is clicked
- * @return              0 if successful non-zero otherwise
  */
-int igl_set_onclick(igl_component_t* component, onclick_fn_t fn);
+void igl_set_onclick(igl_component_t* component, onclick_fn_t fn);
 
 /* Getters for igl dimensions */
 unsigned int igl_get_res_width(void);

@@ -5,6 +5,8 @@
 #include "fb.h"
 #include "debug.h"
 
+//#define DOUBLEBUFF
+
 static igl_mouse_t mp;
 
 /* Private Functions*/
@@ -59,6 +61,7 @@ static void clear_mouse(void)
         for (int x = 0; x < iRet; ++x) {
             color_t pix = mp.pixels_beneath[(y * iRet) + x];
             im[mp.y + y][mp.x + x] = pix;
+            //gl_draw_pixel(mp.x + x, mp.y + y, pix);
         }
     }
 }
@@ -73,6 +76,10 @@ void igl_mouse_update(mouse_event_t evt)
 {
   int iRet = mp.pointer_size;
   clear_mouse();
+#ifdef DOUBLEBUFF
+  gl_swap_buffer();
+  clear_mouse();
+#endif
 
   /*Move pointer*/
   mp.x += evt.dx;
@@ -85,4 +92,19 @@ void igl_mouse_update(mouse_event_t evt)
   mp.y = (mp.y < 0) ? 0 : (mp.y >= max_height) ? max_height : mp.y;
 
   draw_mouse();
+#ifdef DOUBLEBUFF
+  gl_swap_buffer();
+  draw_mouse();
+#endif
+}
+
+
+int igl_mouse_get_x(void)
+{
+    return mp.x;
+}
+
+int igl_mouse_get_y(void)
+{
+    return mp.y;
 }

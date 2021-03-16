@@ -7,9 +7,11 @@
 typedef enum {IGL_BUTTON, IGL_VIEW_PANE, IGL_TEXT_FIELD} igl_component_type_t;
 typedef enum {IGL_RECT, IGL_TRIA, IGL_CHAR} igl_component_shape_t;
 
+typedef struct igl_component igl_component_t;
 /*Typedef for type of function used as an onclick event handler*/
-typedef int (*onclick_fn_t)(void);
-typedef struct {
+typedef void (*onclick_fn_t)(igl_component_t*);
+
+struct  igl_component{
     /*Necessary attributes*/
     const char *name;
     int x;
@@ -25,7 +27,7 @@ typedef struct {
     color_t alt_color;
     bool highlight;
     bool hover;
-} igl_component_t;
+};
 
 /*
  * Initializes a new igl component and returns a pointer to it
