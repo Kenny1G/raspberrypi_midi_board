@@ -35,6 +35,8 @@ void test_gl_init(void)
 void test_gl_update_mouse(void)
 {
     /*Test mouse leaves complex framebuffer undisturbed*/
+    printf("Testing mouse leaves complex framebuffer undisturbed\n");
+    printf("Press middle mouse to stop\n");
     igl_init(1920, 1080, 10, 10, GL_CYAN, 10, 10);
     gl_draw_triangle(100, 40, 40, 300, 700, 300, GL_RED); 
     gl_draw_line(0, 0, 799, 599, GL_CAYENNE);
