@@ -9,21 +9,21 @@ void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int row, unsigned int col, color_t background,
         unsigned int c_width, unsigned int c_height) 
 {
-  cfg.row = row;
-  cfg.col = col;
-  cfg.c_height = c_height;
-  cfg.c_width = c_width;
-  gl_init(res_width, res_height, GL_DOUBLEBUFFER);
-  cfg.background = background;
-  gl_clear(background);
-  gl_swap_buffer();
-  gl_clear(background);
+    cfg.row = row;
+    cfg.col = col;
+    cfg.c_height = c_height;
+    cfg.c_width = c_width;
+    gl_init(res_width, res_height, GL_DOUBLEBUFFER);
+    cfg.background = background;
+    gl_clear(background);
+    gl_swap_buffer();
+    gl_clear(background);
 
 
-  igl_mouse_init(gl_get_width(), gl_get_height(), 12, GL_BLACK);
-  /*Initialize grid*/
-  cfg.grid = malloc(sizeof(igl_component_t) * row * col);
-  memset(cfg.grid, 0, sizeof(igl_component_t) * row * col);
+    igl_mouse_init(gl_get_width(), gl_get_height(), 12, GL_BLACK);
+    /*Initialize grid*/
+    cfg.grid = malloc(sizeof(igl_component_t) * row * col);
+    memset(cfg.grid, 0, sizeof(igl_component_t) * row * col);
 }
 
 
@@ -36,8 +36,8 @@ int igl_update_mouse(mouse_event_t evt)
 
 void igl_clean(void)
 {
-  free(cfg.grid);
-  igl_mouse_clean();
+    free(cfg.grid);
+    igl_mouse_clean();
 }
 
 igl_config_t *igl_get_config(void) { return &cfg; }
