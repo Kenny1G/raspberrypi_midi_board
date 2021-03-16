@@ -52,6 +52,7 @@ void test_gl_update_mouse(void)
     }
     igl_clean();
 }
+
 void main(void)
 {
     uart_init();

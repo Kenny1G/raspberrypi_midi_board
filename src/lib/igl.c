@@ -14,7 +14,7 @@ void igl_init(unsigned int res_width, unsigned int res_height,
     cfg.col = col;
     cfg.c_height = c_height;
     cfg.c_width = c_width;
-    /*must be single buffer because rate we draw to the screen*/
+    /*must be single buffer because of rate we draw to the screen*/
     gl_init(res_width, res_height, GL_SINGLEBUFFER);
     cfg.background = background;
     gl_clear(background);
@@ -45,7 +45,10 @@ igl_config_t *igl_get_config(void) { return &cfg; }
 
 igl_component_t*  igl_create_component(int x, int y, 
         unsigned int width, unsigned int height,
-        igl_cmpn_type_t type, color_t color) { return 0; }
+        igl_cmpn_type_t type, color_t color) 
+{ 
+    return 0; 
+}
 
 int igl_set_onclick(igl_component_t* component, onclick_fn_t fn) { return 0; }
 
