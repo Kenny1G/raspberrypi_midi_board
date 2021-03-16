@@ -1,20 +1,25 @@
-MODULES = igl.o igl_mouse.o
-
+MY_MODULES = igl.o igl_mouse.o
 
 # Targets for this makefile
 APPLICATION = build/instrument.bin
 TEST = 
 TESTLIB = build/test_igl.bin
 
-CFLAGS = -I$(CS107E)/include -Iinclude -g -Wall -Og -std=c99 -ffreestanding
-CFLAGS += -mapcs-frame -fno-omit-frame-pointer -mpoke-function-name -Wpointer-arith
-LDFLAGS = -nostdlib -T memmap -L. -L$(CS107E)/lib
-LDLIBS  = -lmypi -lpi -lgcc
-# Object files needed to build the application binary.
-OBJECTS = $(addprefix build/, $(MODULES))
-
-
 all : $(APPLICATION) $(TEST) $(TESTLIB)
+
+# Object files needed to build the application binary.
+OBJECTS = $(addprefix build/, $(MY_MODULES) start.o cstart.o)
+
+# Flags for compile and link
+export warn = -Wall -Wpointer-arith -Wwrite-strings -Werror \
+        -Wno-error=unused-function -Wno-error=unused-variable \
+        -fno-diagnostics-show-option
+export freestanding = -ffreestanding -nostdinc \
+		-isystem $(shell arm-none-eabi-gcc -print-file-name=include)
+CFLAGS	= -I$(CS107E)/include -Iinclude -Og -g -std=c99 $$warn $$freestanding
+CFLAGS += -mapcs-frame -fno-omit-frame-pointer -mpoke-function-name
+LDFLAGS	= -nostdlib -T src/boot/memmap -L$(CS107E)/lib
+LDLIBS 	= -lpi -lgcc
 
 # Extract binary from elf
 build/%.bin: build/%.elf | build
