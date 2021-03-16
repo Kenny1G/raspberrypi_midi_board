@@ -19,23 +19,19 @@ void igl_init(unsigned int res_width, unsigned int res_height,
   gl_swap_buffer();
   gl_clear(background);
 
-  /*Initialize mouse*/
-  cfg.mp = malloc(sizeof(igl_mouse_t));
-  cfg.mp->x = res_width / 2;
-  cfg.mp->y = res_height / 2;
-  int pointer_size = 12;
-  cfg.mp->pointer_size = pointer_size;
-  cfg.mp->pixels_beneath =
-      malloc(sizeof(color_t) * pointer_size * pointer_size);
 
+  igl_mouse_init(gl_get_width(), gl_get_height(), 12, GL_BLACK);
   /*Initialize grid*/
   cfg.grid = malloc(sizeof(igl_component_t) * row * col);
   memset(cfg.grid, 0, sizeof(igl_component_t) * row * col);
 }
 
+
 int igl_update_mouse(mouse_event_t evt)
 {
-    return 0; 
+    if (evt.action == MOUSE_DRAGGED || evt.action == MOUSE_MOVED)
+    { igl_mouse_update(evt); }
+    return 0;
 }
 
 void igl_clean(void)

@@ -14,19 +14,13 @@
 #include <stdbool.h>
 #include "gl.h"
 #include "mouse.h"
+#include "igl_mouse.h"
 
 typedef enum {IGL_BUTTON, IGL_VIEW_PANE, IGL_TEXT_FIELD} igl_cmpn_type_t;
 typedef enum {IGL_BTN_RECT, IGL_BTN_TRIA, IGL_BTN_CHAR} igl_cmpn_shape_t;
 
 /*Typedef for type of function used as an onclick event handler*/
 typedef int (*onclick_fn_t)(void);
-typedef struct {
-    unsigned int pointer_size;
-    int x;
-    int y;
-    color_t* pixels_beneath;
-
-} igl_mouse_t;
 
 typedef struct {
     const char *name;
@@ -50,6 +44,7 @@ typedef struct {
     igl_mouse_t* mp; //mouse pointer
     igl_component_t* grid; //pointer to 2d array of components
     color_t background;
+    color_t cursor_color;
 } igl_config_t;
 
 /*

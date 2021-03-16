@@ -1,4 +1,4 @@
-MODULES = igl.o
+MODULES = igl.o igl_mouse.o
 
 
 # Targets for this makefile
