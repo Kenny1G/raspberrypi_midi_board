@@ -37,8 +37,7 @@ int igl_update_mouse(mouse_event_t evt)
 void igl_clean(void)
 {
   free(cfg.grid);
-  free(cfg.mp->pixels_beneath);
-  free(cfg.mp);
+  igl_mouse_clean();
 }
 
 igl_config_t *igl_get_config(void) { return &cfg; }

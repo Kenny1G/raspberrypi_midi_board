@@ -16,6 +16,11 @@ void igl_mouse_init(unsigned int res_width, unsigned int res_height,
   gl_draw_rect(mp.x, mp.y, pointer_size, pointer_size, cursor_color);
 }
 
+void igl_mouse_clean(void)
+{
+  free(mp.pixels_beneath);
+}
+
 static void redraw_mouse(mouse_event_t evt)
 {
 }

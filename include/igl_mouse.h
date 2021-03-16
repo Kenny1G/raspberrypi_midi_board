@@ -15,5 +15,6 @@ typedef struct {
 
 void igl_mouse_init(unsigned int res_width, unsigned int res_height,
         unsigned int pointer_size, color_t cursor_color);
-int igl_update_mouse(mouse_event_t evt);
+int igl_mouse_update(mouse_event_t evt);
+void igl_mouse_clean(void);
 #endif
