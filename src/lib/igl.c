@@ -31,7 +31,8 @@ void igl_init(unsigned int res_width, unsigned int res_height,
 
 int igl_update_mouse(mouse_event_t evt)
 {
-    igl_mouse_update(evt);
+    if (evt.dx != 0|| evt.dy != 0) 
+        igl_mouse_update(evt);
     return 0;
 }
 
@@ -45,7 +46,7 @@ igl_config_t *igl_get_config(void) { return &cfg; }
 
 igl_component_t*  igl_create_component(int x, int y, 
         unsigned int width, unsigned int height,
-        igl_cmpn_type_t type, color_t color) 
+        igl_cmpn_type_t type,  igl_cmpn_shape_t shape, color_t color) 
 { 
     return 0; 
 }

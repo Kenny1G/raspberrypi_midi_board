@@ -60,7 +60,6 @@ void main(void)
     interrupts_init();
     gpio_init();
     gpio_interrupts_init();
-    timer_init();
     uart_init();
     interrupts_global_enable(); 
     mouse_init(KEYBOARD_CLOCK, KEYBOARD_DATA);

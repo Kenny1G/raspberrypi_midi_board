@@ -15,13 +15,6 @@ static igl_mouse_t mp;
  */
 static void draw_mouse(void);
 /*
- * Clears cursor changes cursor location based on `evt` 
- * and redraws mouse 
- *
- * @param evt       mouse event that triggered redraw
- */
-static void move_mouse(mouse_event_t evt);
-/*
  * Clears cursor from screen using pixels_beneath buffer
  */
 static void clear_mouse(void);
@@ -76,7 +69,9 @@ void igl_mouse_clean(void)
     free(mp.pixels_beneath);
 }
 
-static void move_mouse(mouse_event_t evt) {
+
+void igl_mouse_update(mouse_event_t evt)
+{
   int iRet = mp.pointer_size;
   clear_mouse();
 
@@ -91,11 +86,4 @@ static void move_mouse(mouse_event_t evt) {
   mp.y = (mp.y < 0) ? 0 : (mp.y >= max_height) ? max_height : mp.y;
 
   draw_mouse();
-}
-
-int igl_mouse_update(mouse_event_t evt)
-{
-    if (evt.dx != 0|| evt.dy != 0) 
-        move_mouse(evt);
-    return 0;
 }
