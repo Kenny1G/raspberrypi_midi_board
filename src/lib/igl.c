@@ -43,12 +43,11 @@ int igl_update_mouse(mouse_event_t evt)
         igl_mouse_update(evt);
     /* A component is clicked if the user releases a mouse button on it*/
     if (evt.action == MOUSE_BUTTON_RELEASE) {
-        //unsigned int grid_x = igl_mouse_get_x() % (gl_get_width() / cfg.col);
-        //unsigned int grid_y = igl_mouse_get_y() % (gl_get_height() / cfg.row);
-        //printf("grid_x: %d, grid_y: %d",grid_x, grid_y);
-        //igl_component_t *comp = cfg.grid[(grid_y * cfg.col) + grid_x];
-        //if (comp->fn != 0)
-        //    comp->fn(comp); 
+        unsigned int grid_x = igl_mouse_get_x() / (gl_get_width() / cfg.col);
+        unsigned int grid_y = igl_mouse_get_y() / (gl_get_height() / cfg.row);
+        igl_component_t *comp = cfg.grid[(grid_y * cfg.col) + grid_x];
+        if (comp->fn != 0)
+            comp->fn(comp); 
     }
     return 0;
 }
@@ -85,7 +84,7 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
     cfg.grid[(y * cfg.col) + x] = pRet;
 
     igl_component_draw(pRet);
-    return 0; 
+    return pRet; 
 }
 
 void igl_set_onclick(igl_component_t* component, onclick_fn_t fn) 
