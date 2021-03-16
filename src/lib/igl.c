@@ -1,6 +1,7 @@
 #include "igl.h"
 #include "malloc.h"
 #include "strings.h"
+#include "printf.h"
 
 const int padding = 1;
 static igl_config_t cfg;
@@ -24,8 +25,8 @@ void igl_init(unsigned int res_width, unsigned int res_height,
 
     igl_mouse_init(gl_get_width(), gl_get_height(), 12, GL_BLACK);
     /*Initialize grid*/
-    cfg.grid = malloc(sizeof(igl_component_t) * row * col);
-    memset(cfg.grid, 0, sizeof(igl_component_t) * row * col);
+    cfg.grid = malloc(sizeof(void*) * row * col);
+    memset(cfg.grid, 0, sizeof(void*) * row * col);
 }
 
 
@@ -39,15 +40,35 @@ int igl_update_mouse(mouse_event_t evt)
 void igl_clean(void)
 {
     free(cfg.grid);
+    for (int y = 0; y < cfg.row; ++y) {
+        for (int x = 0; x < cfg.col; ++x) {
+            if (cfg.grid[(y * cfg.col) + x] != 0)
+                free(cfg.grid[(y * cfg.col) + x]);
+        }
+    }
+
     igl_mouse_clean();
 }
 
 igl_config_t *igl_get_config(void) { return &cfg; }
 
-igl_component_t*  igl_create_component(int x, int y, 
-        unsigned int width, unsigned int height,
-        igl_cmpn_type_t type,  igl_cmpn_shape_t shape, color_t color) 
+igl_component_t*  igl_create_component(const char* name, int x, int y,
+        igl_component_type_t type, igl_component_shape_t shape,
+        color_t color)
 { 
+    /*Calculate x and y of the component*/
+    unsigned int cell_width = gl_get_width() / cfg.col;
+    unsigned int cell_height = gl_get_height() / cfg.row;
+    unsigned int x_offset = (cell_width - cfg.c_width)/2;
+    unsigned int y_offset = (cell_height - cfg.c_height)/2;
+    int start_x = (x * cell_width) + x_offset;
+    int start_y = (y * cell_height) + y_offset;
+
+    igl_component_t* pRet = igl_component_new(name, start_x, start_y, 
+            cfg.c_width, cfg.c_height, type, shape, color);
+    cfg.grid[(y * cfg.col) + x] = pRet;
+
+    igl_component_draw(pRet);
     return 0; 
 }
 

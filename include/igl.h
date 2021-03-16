@@ -21,7 +21,7 @@ typedef struct {
     unsigned int c_width; //width of each component
     unsigned int c_height;//height of each component
     igl_mouse_t* mp; //mouse pointer
-    igl_component_t* grid; //pointer to 2d array of components
+    igl_component_t** grid; //pointer to 2d array of components
     color_t background;
     color_t cursor_color;
 } igl_config_t;
@@ -81,9 +81,9 @@ igl_config_t* igl_get_config(void);
  * @param color     color of component
  * @returns         pointer to the component, NULL if unsuccessful
  */
-igl_component_t*  igl_create_component(int x, int y, 
-        unsigned int width, unsigned int height,
-        igl_cmpn_type_t type, igl_cmpn_shape_t shape, color_t color);
+igl_component_t*  igl_create_component(const char* name, int x, int y,
+        igl_component_type_t type, igl_component_shape_t shape,
+        color_t color);
 
 /*
  * Sets `component` to be clickable and registers fn

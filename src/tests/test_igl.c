@@ -10,6 +10,14 @@
 #include "keyboard.h"
 extern void memory_report(void);
 
+void finish_loop(void) {
+    while(1) {
+        mouse_event_t evt = mouse_read_event();
+        igl_update_mouse(evt);
+        if (evt.action == MOUSE_BUTTON_PRESS && evt.middle) break;
+    }
+    igl_clean();
+}
 void test_gl_init(void)
 {
     igl_init(800, 600, 2,5, GL_BLUE, 40, 90);
@@ -29,10 +37,10 @@ void test_gl_init(void)
     assert(igl_get_c_height() == 10);
     assert(igl_get_row() == 15);
     assert(igl_get_col() == 7);
-    igl_clean();
+    finish_loop();
 }
 
-void test_gl_update_mouse(void)
+void test_igl_update_mouse(void)
 {
     /*Test mouse leaves complex framebuffer undisturbed*/
     printf("Testing mouse leaves complex framebuffer undisturbed\n");
@@ -45,12 +53,22 @@ void test_gl_update_mouse(void)
     gl_draw_triangle(100, 40, 40, 300, 700, 300, GL_RED); 
     gl_draw_line(0, 0, 799, 599, GL_CAYENNE);
     gl_draw_line(799, 0, 0, 599,GL_CAYENNE);
-    while(1) {
-        mouse_event_t evt = mouse_read_event();
-        igl_update_mouse(evt);
-        if (evt.action == MOUSE_BUTTON_PRESS && evt.middle) break;
+    finish_loop();
+}
+
+void test_igl_component(void)
+{
+    int row = 3;
+    int col = 3;
+    igl_init(800, 600, row , col, GL_WHITE, 200, 150);
+    color_t color = GL_BLACK;
+    for (int y = 0; y < row; ++y) {
+        for (int x = 0; x < col; ++x) {
+            igl_component_t*  i = igl_create_component("C#", x, y, IGL_BUTTON, 
+                    (y % 3), color);
+        }
     }
-    igl_clean();
+    finish_loop();
 }
 
 void main(void)
@@ -66,7 +84,8 @@ void main(void)
     printf("Executing main() in test_igl.c\n");
 
     //test_gl_init();
-    test_gl_update_mouse();
+    //test_igl_update_mouse();
+    test_igl_component();
 
     printf("Completed main() in test_igl.c\n");
     memory_report();

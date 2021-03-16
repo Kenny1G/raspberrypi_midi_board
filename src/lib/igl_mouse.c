@@ -32,7 +32,6 @@ void igl_mouse_init(unsigned int res_width, unsigned int res_height,
     mp.pixels_beneath =
       malloc(sizeof(color_t) * pointer_size * pointer_size);
     mp.cursor_color = cursor_color;
-    draw_mouse();
 }
 
 static void draw_mouse()
