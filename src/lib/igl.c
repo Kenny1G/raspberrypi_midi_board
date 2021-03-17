@@ -74,17 +74,22 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
     /*Calculate x and y of the component*/
     unsigned int cell_width = gl_get_width() / cfg.col;
     unsigned int cell_height = gl_get_height() / cfg.row;
+    //int c_width = (shape == IGL_CHAR)? cfg.c_width : gl_get_char_width();
+    //int c_height = (shape == IGL_CHAR)? cfg.c_height : gl_get_char_height();
     unsigned int x_offset = (cell_width - cfg.c_width)/2;
     unsigned int y_offset = (cell_height - cfg.c_height)/2;
     int start_x = (x * cell_width) + x_offset;
     int start_y = (y * cell_height) + y_offset;
 
-    igl_component_t* pRet = igl_component_new(name, start_x, start_y, 
-            cfg.c_width, cfg.c_height, type, shape, color);
-    cfg.grid[(y * cfg.col) + x] = pRet;
+    if (cfg.grid[(y * cfg.col) + x] == 0) {
+        igl_component_t* pRet = igl_component_new(name, start_x, start_y, 
+                cfg.c_width, cfg.c_height, type, shape, color);
+        cfg.grid[(y * cfg.col) + x] = pRet;
 
-    igl_component_draw(pRet);
-    return pRet; 
+        igl_component_draw(pRet);
+        return pRet; 
+    }
+    return 0;
 }
 
 void igl_set_aux(igl_component_t* component, void* aux_data)

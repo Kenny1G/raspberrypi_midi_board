@@ -36,8 +36,8 @@ void igl_component_draw(igl_component_t* component)
             gl_draw_rect(x, y, w, h, c);
             break;
         case IGL_CHAR:
-            gl_draw_rect(x, y, w, h, alt_c);
-            gl_draw_string(x, y + h/2, component->name, c);
+            gl_draw_rect(x, y, w, h, c);
+            gl_draw_string(x, y + h/2, component->name, alt_c);
             break;
         case IGL_TRIA:
             gl_draw_triangle(x + w/2, y, x, y + h, x + w, y + h, c);
