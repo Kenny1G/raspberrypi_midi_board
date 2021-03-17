@@ -20,10 +20,11 @@ void igl_init(unsigned int res_width, unsigned int res_height,
     cfg.c_width = c_width;
     /*must be single buffer because of rate we draw to the screen*/
     gl_init(res_width, res_height, GL_SINGLEBUFFER);
+
     cfg.background = background;
     gl_clear(background);
 
-    igl_mouse_init(gl_get_width(), gl_get_height(), 20, GL_WHITE);
+    igl_mouse_init(gl_get_width(), gl_get_height(), 5, GL_RED);
     /*Initialize grid*/
     cfg.grid = malloc(sizeof(void*) * row * col);
     memset(cfg.grid, 0, sizeof(void*) * row * col);

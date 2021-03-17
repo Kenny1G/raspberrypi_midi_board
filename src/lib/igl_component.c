@@ -29,13 +29,15 @@ void igl_component_draw(igl_component_t* component)
     unsigned int x = component->x;
     unsigned int y = component->y;
     color_t c = component->color;
+    color_t alt_c = (component->alt_color)? component->alt_color : ~c;
 
     switch(component->shape) {
         case IGL_RECT:
             gl_draw_rect(x, y, w, h, c);
             break;
         case IGL_CHAR:
-            gl_draw_string(x, y, component->name, c);
+            gl_draw_rect(x, y, w, h, alt_c);
+            gl_draw_string(x, y + h/2, component->name, c);
             break;
         case IGL_TRIA:
             gl_draw_triangle(x + w/2, y, x, y + h, x + w, y + h, c);

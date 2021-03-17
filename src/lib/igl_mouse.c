@@ -25,8 +25,8 @@ void igl_mouse_init(unsigned int res_width, unsigned int res_height,
         unsigned int pointer_size, color_t cursor_color)
 {
     /*Initialize mouse*/
-    mp.x = res_width / 2;
-    mp.y = res_height / 2;
+    mp.x = 0;
+    mp.y = 0;
     mp.pointer_size = pointer_size;
     mp.res_width = res_width;
     mp.res_height = res_height;
