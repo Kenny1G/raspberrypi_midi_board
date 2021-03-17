@@ -60,10 +60,3 @@ void play_notes(note_config_t *note_sequence, unsigned int seq_len)
     }
     
 }
-
-void main(void) 
-{
-    uart_init();
-    printf("Hello, world!\n");
-    uart_putchar(EOT);
-}

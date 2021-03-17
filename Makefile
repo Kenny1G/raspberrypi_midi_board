@@ -1,7 +1,7 @@
 MY_MODULES = igl.o igl_mouse.o igl_component.o debug.o
 
 # Targets for this makefile
-APPLICATION = build/instrument.bin
+APPLICATION = build/project-app.bin
 TEST = 
 TESTLIB = build/test_igl.bin
 
