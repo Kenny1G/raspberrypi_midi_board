@@ -1,4 +1,4 @@
-MY_MODULES = igl.o igl_mouse.o igl_component.o debug.o
+MY_MODULES = igl.o igl_mouse.o igl_component.o debug.o instrument.o
 
 # Targets for this makefile
 APPLICATION = build/project-app.bin

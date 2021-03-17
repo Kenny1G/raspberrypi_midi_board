@@ -2,6 +2,7 @@
 #include "strings.h"
 #include "uart.h"
 #include "instrument.h"
+#include "malloc.h"
 
 #include "timer.h"
 #include "gpio.h"
@@ -11,8 +12,52 @@
 #include "tone.h"
 #include "pitch.h"
 
+#define MAX_LENGTH 100
+
+/* Grid of all notes that correspond to components grid*/
+static note_t notes[12];
+static instrument_config_t cfg;
+
+/*Populates the notes grid with all the musical notes*/
+static void populate_notes(void);
+
+void instrument_init(void)
+{
+    /*Initialize space for shell*/
+    populate_notes();
+    cfg.piece = malloc(MAX_LENGTH * sizeof(choord_t*));
+    memset(cfg.piece, 0, MAX_LENGTH * sizeof(choord_t*));
+
+    cfg.lens = malloc(MAX_LENGTH * sizeof(int));
+    memset(cfg.lens, 0, MAX_LENGTH * sizeof(int));
+    cfg.current_frame = -1;
+    next_frame();
+
+}
+
+static void populate_notes(void)
+{
+}
+
+void next_frame(void)
+{
+    cfg.piece[++cfg.current_frame] = malloc(sizeof(notes));
+    memset(cfg.piece[cfg.current_frame], 0, sizeof(notes));
+}
+
+void instrument_note_onclick(igl_component_t *cmpn)
+{
+    int x = ((int*)cmpn->aux_data)[0];
+    int y = ((int*)cmpn->aux_data)[1];
+    int ncols = ((int*)cmpn->aux_data)[2];
+    /*Toggle the note in the choord*/
+    cfg.piece[cfg.current_frame][(y * ncols) + x] ^= 1;
+    printf("x:%d, y:%d, work?: %d\n", x, y,
+            cfg.piece[cfg.current_frame][(y * ncols) + x]);
+}
+/*
 //written with the help of referencing melody.c from lecture (the gitHub path is cs107e.github.io/lectures/Sensors/code/sound/melody/melody.c)
-void play_notes(note_config_t *note_sequence, unsigned int seq_len) 
+void play_notes(note_t *note_sequence, unsigned int seq_len) 
 {
     timer_init();
 
@@ -60,3 +105,4 @@ void play_notes(note_config_t *note_sequence, unsigned int seq_len)
     }
     
 }
+*/

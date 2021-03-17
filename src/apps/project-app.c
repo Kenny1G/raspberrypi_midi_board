@@ -8,6 +8,7 @@
 #include "interrupts.h"
 #include "gpio_interrupts.h"
 #include "keyboard.h"
+#include "instrument.h"
 
 #define NROWS 6 
 #define NCOLS 11
@@ -31,10 +32,23 @@ void setup_note_buttons(void)
     int c = 0;
     int y_start = 0;
     int x_start = 3;
-    for (int y = y_start; y <= y_start + 2; ++y) {
-        for (int x = x_start; x <= x_start + 3; ++x) {
+    int nrows = 3;
+    int ncols = 4;
+    /*Populate igl with note components*/
+    for (int y = y_start; y < y_start + nrows; ++y) {
+        for (int x = x_start; x < x_start + ncols; ++x) {
+            /*
+             * Auxiliary data to note commponent is 
+             * the relative position of the notes
+             */
+            int * aux = malloc(sizeof(int) * 3);
+            aux[0] = x - x_start;
+            aux[1] = y - y_start;
+            aux[2] = ncols;
             igl_component_t*  i = igl_create_component(NOTES[c++], x, y, 
                     IGL_BUTTON, IGL_CHAR, gl_color(55, 0, 179));
+            igl_set_aux(i, aux);
+            igl_set_onclick(i, instrument_note_onclick);
         }
     }
 
@@ -107,6 +121,7 @@ void main(void)
     interrupts_global_enable(); 
     mouse_init(KEYBOARD_CLOCK, KEYBOARD_DATA);
 
+    instrument_init();
     setup_ui();
 
     memory_report();
