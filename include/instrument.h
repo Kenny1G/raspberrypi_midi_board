@@ -24,7 +24,7 @@
  */
 typedef struct {
     unsigned char note_name; //name of the note
-    unsigned int note_duration; //time of play of the note
+    unsigned int note_duration; //time of play of the note (should be multiple of 4)
     const uint16_t waveform[]; //sine wave unique to the note
     unsigned int pitch; //specifies the pitch/octave of the note
 } note_config_t;
