@@ -3,6 +3,7 @@
 #include "strings.h"
 #include "printf.h"
 #include "debug.h"
+#include "timer.h"
 
 //#define DOUBLEBUFF
 const int padding = 1;
@@ -19,7 +20,7 @@ void igl_init(unsigned int res_width, unsigned int res_height,
     cfg.c_width = c_width;
     /*must be single buffer because of rate we draw to the screen*/
 #ifdef DOUBLEBUFF
-    gl_init(res_width, res_height, GL_DOUBLEBUFFER);
+    gl_init(res_width, res_height, GL_SINGLEBUFFER);
 #else
     gl_init(res_width, res_height, GL_SINGLEBUFFER);
 #endif
@@ -28,10 +29,10 @@ void igl_init(unsigned int res_width, unsigned int res_height,
 #ifdef DOUBLEBUFF
     gl_swap_buffer();
     gl_clear(background);
+    gl_swap_buffer();
 #endif
 
-
-    igl_mouse_init(gl_get_width(), gl_get_height(), 12, GL_BLACK);
+    igl_mouse_init(gl_get_width(), gl_get_height(), 20, GL_WHITE);
     /*Initialize grid*/
     cfg.grid = malloc(sizeof(void*) * row * col);
     memset(cfg.grid, 0, sizeof(void*) * row * col);
@@ -84,6 +85,13 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
     cfg.grid[(y * cfg.col) + x] = pRet;
 
     igl_component_draw(pRet);
+#ifdef DOUBLEBUFF
+    timer_delay(2);
+    gl_swap_buffer();
+    timer_delay(2);
+    igl_component_draw(pRet);
+    gl_swap_buffer();
+#endif
     return pRet; 
 }
 

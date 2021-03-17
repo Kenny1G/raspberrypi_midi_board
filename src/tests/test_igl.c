@@ -61,10 +61,10 @@ void onclick(igl_component_t* component) {
 }
 void test_igl_component(void)
 {
-    int row = 3;
-    int col = 3;
-    igl_init(800, 600, row , col, GL_RED, 200, 150);
-    color_t color = GL_BLACK;
+    int row = 7;
+    int col = 15;
+    igl_init(1920, 1080, row , col, GL_RED, 100, 100);
+    color_t color = GL_CYAN;
     for (int y = 0; y < row; ++y) {
         for (int x = 0; x < col; ++x) {
             igl_component_t*  i = igl_create_component("C#", x, y, IGL_BUTTON, 

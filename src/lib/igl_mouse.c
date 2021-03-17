@@ -79,6 +79,7 @@ void igl_mouse_update(mouse_event_t evt)
 #ifdef DOUBLEBUFF
   gl_swap_buffer();
   clear_mouse();
+  gl_swap_buffer();
 #endif
 
   /*Move pointer*/
@@ -95,6 +96,7 @@ void igl_mouse_update(mouse_event_t evt)
 #ifdef DOUBLEBUFF
   gl_swap_buffer();
   draw_mouse();
+  gl_swap_buffer();
 #endif
 }
 
