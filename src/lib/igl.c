@@ -5,7 +5,6 @@
 #include "debug.h"
 #include "timer.h"
 
-const int padding = 1;
 static igl_config_t cfg;
 static bool left_pressed;
 

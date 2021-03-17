@@ -30,6 +30,9 @@ void igl_component_draw(igl_component_t* component)
     unsigned int y = component->y;
     color_t c = component->color;
     color_t alt_c = (component->alt_color)? component->alt_color : ~c;
+    unsigned int num_can_take = w / gl_get_char_width();
+    unsigned int char_offset = ((num_can_take - strlen(component->name))/2) 
+        * gl_get_char_width();
 
     switch(component->shape) {
         case IGL_RECT:
@@ -37,7 +40,7 @@ void igl_component_draw(igl_component_t* component)
             break;
         case IGL_CHAR:
             gl_draw_rect(x, y, w, h, c);
-            gl_draw_string(x, y + h/2, component->name, alt_c);
+            gl_draw_string(x + char_offset, y + h/2, component->name, alt_c);
             break;
         case IGL_TRIA:
             gl_draw_triangle(x + w/2, y, x, y + h, x + w, y + h, c);
