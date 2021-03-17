@@ -63,6 +63,16 @@ void instrument_note_onclick(igl_component_t *cmpn);
  * @param cmpn      duration commponent that is clicked
  */
 void instrument_duration_onclick(igl_component_t *cmpn);
+
+void instrument_pitch_up_onclick(igl_component_t *cmpn);
+void instrument_pitch_down_onclick(igl_component_t *cmpn);
+void instrument_set_frame_onclick(igl_component_t *cmpn);
+void instrument_frame_onclick(igl_component_t *cmpn);
+void instrument_scroll_up_onclick(igl_component_t *cmpn);
+void instrument_scroll_down_onclick(igl_component_t *cmpn);
+void instrument_play_frame_onclick(igl_component_t *cmpn);
+void instrument_play_all_onclick(igl_component_t *cmpn);
+
 /*
  * Receives a pointer to the beginning of an array of note 
  * configurations and plays the sequence of notes

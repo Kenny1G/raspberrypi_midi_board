@@ -45,6 +45,7 @@ void next_frame(void)
     memset(cfg.piece[cfg.current_frame], 0, sizeof(notes));
 }
 
+/* On click buttons*/
 void instrument_note_onclick(igl_component_t *cmpn)
 {
     int x = ((int*)cmpn->aux_data)[0];
@@ -56,6 +57,9 @@ void instrument_note_onclick(igl_component_t *cmpn)
             cfg.piece[cfg.current_frame][(y * ncols) + x]);
 }
 
+void instrument_pitch_up_onclick(igl_component_t *cmpn){}
+void instrument_pitch_down_onclick(igl_component_t *cmpn){}
+
 void instrument_duration_onclick(igl_component_t *cmpn)
 {
     int duration = *((int*)cmpn->aux_data);
@@ -64,6 +68,15 @@ void instrument_duration_onclick(igl_component_t *cmpn)
     printf("duration work?: %d\n",
         cfg.lens[cfg.current_frame]);
 }
+
+void instrument_set_frame_onclick(igl_component_t *cmpn) {}
+
+void instrument_frame_onclick(igl_component_t *cmpn){}
+void instrument_scroll_up_onclick(igl_component_t *cmpn){}
+void instrument_scroll_down_onclick(igl_component_t *cmpn){}
+void instrument_play_frame_onclick(igl_component_t *cmpn){}
+void instrument_play_all_onclick(igl_component_t *cmpn){}
+
 /*
 //written with the help of referencing melody.c from lecture (the gitHub path is cs107e.github.io/lectures/Sensors/code/sound/melody/melody.c)
 void play_notes(note_t *note_sequence, unsigned int seq_len) 

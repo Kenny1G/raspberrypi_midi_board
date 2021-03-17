@@ -54,9 +54,12 @@ void setup_note_buttons(void)
 
     igl_component_t*  pitch_up= igl_create_component("pitch_up", 7, 1, 
             IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_set_onclick(pitch_up, instrument_pitch_up_onclick);
+
     igl_set_next_rotation(180);
     igl_component_t*  pitch_down= igl_create_component("pitch_down", 7, 2, 
             IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_set_onclick(pitch_down, instrument_pitch_down_onclick);
 }
 
 void setup_time_buttons(void)
@@ -82,29 +85,36 @@ void setup_time_buttons(void)
     }
     igl_component_t* set_frame= igl_create_view_pane
         ("set_frame", 0, 2, 1, 2, gl_color(55,0, 179));
+    igl_set_onclick(set_frame, instrument_set_frame_onclick);
 }
 
 void setup_music_frame(void)
 {
-    igl_component_t* prev_music_frame = igl_create_view_pane
-        ("prev_music_frame", 2, 3, NCOLS - 4, 3, gl_color(55,0, 179));
-    igl_component_t* curr_music_frame = igl_create_view_pane
-        ("curr_music_frame", 2, 4, NCOLS - 4, 4, gl_color(55,0, 179));
-    igl_component_t* next_music_frame = igl_create_view_pane
-        ("next_music_frame", 2, 5, NCOLS - 4, 5, gl_color(55,0, 179));
+    igl_component_t* prev_frame = igl_create_view_pane
+        ("prev_frame", 2, 3, NCOLS - 4, 3, gl_color(55,0, 179));
+    igl_component_t* curr_frame = igl_create_view_pane
+        ("curr_frame", 2, 4, NCOLS - 4, 4, gl_color(55,0, 179));
+    igl_component_t* next_frame = igl_create_view_pane
+        ("next_frame", 2, 5, NCOLS - 4, 5, gl_color(55,0, 179));
 
     igl_component_t*  scroll_up= igl_create_component("scroll_up",
             NCOLS - 3, 4, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_set_onclick(scroll_up, instrument_scroll_up_onclick);
+
     igl_set_next_rotation(180);
     igl_component_t*  scroll_down= igl_create_component("scroll_down",
             NCOLS - 3, 5, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_set_onclick(scroll_down, instrument_scroll_down_onclick);
 
     igl_set_next_rotation(90);
     igl_component_t*  play_frame = igl_create_component("play_frame",
             NCOLS - 2, 4, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_set_onclick(play_frame, instrument_play_frame_onclick);
+
     igl_set_next_rotation(90);
     igl_component_t*  play_all = igl_create_component("play_all",
             NCOLS - 1, 5, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_set_onclick(play_all, instrument_play_all_onclick);
 }
 void setup_ui(void)
 {
