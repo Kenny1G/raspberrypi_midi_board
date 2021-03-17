@@ -76,11 +76,6 @@ void igl_mouse_update(mouse_event_t evt)
 {
   int iRet = mp.pointer_size;
   clear_mouse();
-#ifdef DOUBLEBUFF
-  gl_swap_buffer();
-  clear_mouse();
-  gl_swap_buffer();
-#endif
 
   /*Move pointer*/
   mp.x += evt.dx;
@@ -93,11 +88,6 @@ void igl_mouse_update(mouse_event_t evt)
   mp.y = (mp.y < 0) ? 0 : (mp.y >= max_height) ? max_height : mp.y;
 
   draw_mouse();
-#ifdef DOUBLEBUFF
-  gl_swap_buffer();
-  draw_mouse();
-  gl_swap_buffer();
-#endif
 }
 
 
