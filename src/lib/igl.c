@@ -83,8 +83,6 @@ static void get_start(int grid_x, int grid_y, int *start_x, int *start_y) {
     /*Calculate x and y of the component*/
     unsigned int cell_width = gl_get_width() / cfg.col;
     unsigned int cell_height = gl_get_height() / cfg.row;
-    //int c_width = (shape == IGL_CHAR)? cfg.c_width : gl_get_char_width();
-    //int c_height = (shape == IGL_CHAR)? cfg.c_height : gl_get_char_height();
     unsigned int x_offset = (cell_width - cfg.c_width)/2;
     unsigned int y_offset = (cell_height - cfg.c_height)/2;
     *start_x = (grid_x * cell_width) + x_offset;
