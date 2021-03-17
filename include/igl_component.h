@@ -27,6 +27,7 @@ struct  igl_component{
     color_t alt_color;
     bool highlight;
     bool hover;
+    void* aux_data;
 };
 
 /*

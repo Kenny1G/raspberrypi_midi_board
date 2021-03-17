@@ -5,7 +5,6 @@
 #include "fb.h"
 #include "debug.h"
 
-//#define DOUBLEBUFF
 
 static igl_mouse_t mp;
 

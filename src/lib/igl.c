@@ -48,8 +48,11 @@ void igl_clean(void)
     free(cfg.grid);
     for (int y = 0; y < cfg.row; ++y) {
         for (int x = 0; x < cfg.col; ++x) {
-            if (cfg.grid[(y * cfg.col) + x] != 0)
-                free(cfg.grid[(y * cfg.col) + x]);
+            igl_component_t *comp = cfg.grid[(y * cfg.col) + x];
+            if (comp->aux_data != 0)
+                free(comp->aux_data);
+            if (comp != 0)
+                free(comp);
         }
     }
 
@@ -76,6 +79,11 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
 
     igl_component_draw(pRet);
     return pRet; 
+}
+
+void igl_set_aux(igl_component_t* component, void* aux_data)
+{
+    component->aux_data = aux_data;
 }
 
 void igl_set_onclick(igl_component_t* component, onclick_fn_t fn) 

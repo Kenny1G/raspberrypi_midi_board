@@ -57,7 +57,9 @@ void test_igl_update_mouse(void)
 }
 
 void onclick(igl_component_t* component) {
-    printf("Clicked button at x:%d y:%d\n", component->x, component->y);
+    int* grid = (int*) component->aux_data;
+    printf("Clicked button at x:%d y:%d... grid_x:%d, grid_y:%d\n",
+            component->x, component->y, grid[0], grid[1]);
 }
 void test_igl_component(void)
 {
@@ -67,8 +69,12 @@ void test_igl_component(void)
     color_t color = GL_CYAN;
     for (int y = 0; y < row; ++y) {
         for (int x = 0; x < col; ++x) {
+            int *aux = malloc(sizeof(int) * 2);
+            aux[0] = x;
+            aux[1] = y;
             igl_component_t*  i = igl_create_component("C#", x, y, IGL_BUTTON, 
                     (y % 3), color);
+            igl_set_aux(i, aux);
             igl_set_onclick(i, onclick);
         }
     }

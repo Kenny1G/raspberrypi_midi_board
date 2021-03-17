@@ -93,6 +93,15 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
  */
 void igl_set_onclick(igl_component_t* component, onclick_fn_t fn);
 
+/*
+ * Adds aux_data to `component`. aux_data must be malloced as
+ * igl_clean frees it if it is not 0.
+ *
+ * @param component     component to add aux_data to
+ * @param fn            auxiliary data
+ */
+void igl_set_aux(igl_component_t* component, void* aux_data);
+
 /* Getters for igl dimensions */
 unsigned int igl_get_res_width(void);
 unsigned int igl_get_res_height(void);
