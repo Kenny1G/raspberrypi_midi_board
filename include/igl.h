@@ -67,16 +67,15 @@ void igl_clean(void);
 igl_config_t* igl_get_config(void);
 
 /*
- * Creates a component that spans width rows and
- * height columns at grid locations x, y
+ * Creates a component at grid locations x, y
  *
  * components start as just viewable (unclickable, unhighlightable, etc.)
  *
+ * @param name      name of component
  * @param x         grid x location of component
  * @param y         grid y location of component
- * @param width     num of columns component spans
- * @param height    num of rows component spans
  * @param type      component type
+ * @param shape     component shape 
  * @param color     color of component
  * @returns         pointer to the component, NULL if unsuccessful
  */
@@ -84,6 +83,22 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
         igl_component_type_t type, igl_component_shape_t shape,
         color_t color);
 
+/*
+ * Creates a view pane component that goes from grid location
+ * `start_x`, `start_y` to grid location `end_x`, `end_y`
+ *
+ * User is responsible for ensuring view pane does overlap 
+ * another component
+ * @param name      name of component
+ * @param start_x   starting x location of component
+ * @param start_y   starting y location of component
+ * @param end_x     ending x location of component
+ * @param end_y     ending y location of component
+ * @param color     color of component
+ * @returns         pointer to the component, NULL if unsuccessful
+ */
+igl_component_t* igl_create_view_pane(const char* name, int start_x, int start_y,
+        int end_x, int end_y, color_t color);
 /*
  * Sets `component` to be clickable and registers fn
  * as its on click function

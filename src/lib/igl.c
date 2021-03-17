@@ -41,8 +41,11 @@ int igl_update_mouse(mouse_event_t evt)
         unsigned int grid_x = igl_mouse_get_x() / (gl_get_width() / cfg.col);
         unsigned int grid_y = igl_mouse_get_y() / (gl_get_height() / cfg.row);
         igl_component_t *comp = cfg.grid[(grid_y * cfg.col) + grid_x];
-        if (comp->fn != 0)
+        if (comp != 0 && comp->fn != 0) {
+            printf("Trying to call something: name: %s function: %x\n",
+                    comp->name, (unsigned int)comp->fn);
             comp->fn(comp); 
+        }
         left_pressed = false;
     }
     return 0;
@@ -67,10 +70,16 @@ void igl_clean(void)
 
 igl_config_t *igl_get_config(void) { return &cfg; }
 
-igl_component_t*  igl_create_component(const char* name, int x, int y,
-        igl_component_type_t type, igl_component_shape_t shape,
-        color_t color)
-{ 
+/*
+ * Calculates the starting x and y locations for the framebuffer from the
+ * x and y index on the grid of components
+ *
+ * @param grid_x        grid x index of component
+ * @param grid_y        grid y index of component
+ * @param start_x       pointer to variable to store starting x coord
+ * @param start_y       pointer to variable to store starting y coord
+ */
+static void get_start(int grid_x, int grid_y, int *start_x, int *start_y) {
     /*Calculate x and y of the component*/
     unsigned int cell_width = gl_get_width() / cfg.col;
     unsigned int cell_height = gl_get_height() / cfg.row;
@@ -78,13 +87,41 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
     //int c_height = (shape == IGL_CHAR)? cfg.c_height : gl_get_char_height();
     unsigned int x_offset = (cell_width - cfg.c_width)/2;
     unsigned int y_offset = (cell_height - cfg.c_height)/2;
-    int start_x = (x * cell_width) + x_offset;
-    int start_y = (y * cell_height) + y_offset;
+    *start_x = (grid_x * cell_width) + x_offset;
+    *start_y = (grid_y * cell_height) + y_offset;
+}
 
+igl_component_t*  igl_create_component(const char* name, int x, int y,
+        igl_component_type_t type, igl_component_shape_t shape,
+        color_t color)
+{ 
+    int start_x;
+    int start_y;
+    get_start(x, y, &start_x, &start_y);
     if (cfg.grid[(y * cfg.col) + x] == 0) {
         igl_component_t* pRet = igl_component_new(name, start_x, start_y, 
                 cfg.c_width, cfg.c_height, type, shape, color);
         cfg.grid[(y * cfg.col) + x] = pRet;
+
+        igl_component_draw(pRet);
+        return pRet; 
+    }
+    return NULL;
+}
+
+igl_component_t* igl_create_view_pane(const char* name, int start_x, int start_y,
+        int end_x, int end_y, color_t color) {
+    int s_x, s_y, e_x, e_y;
+    get_start(start_x, start_y, &s_x, &s_y);
+    get_start(end_x, end_y, &e_x, &e_y);
+    unsigned int width = (e_x - s_x) + cfg.c_width ;
+    unsigned int height = (e_y - s_y) + cfg.c_height;
+    printf("x:%d, y:%d, width:%d, height:%d\n", start_x, start_y, width, height);
+
+    if (cfg.grid[(start_y * cfg.col) + start_x] == 0) {
+        igl_component_t* pRet = igl_component_new(name, s_x, s_y, 
+                width, height, IGL_VIEW_PANE, IGL_RECT, color);
+        cfg.grid[(start_y * cfg.col) + start_x] = pRet;
 
         igl_component_draw(pRet);
         return pRet; 
