@@ -13,10 +13,10 @@
 #define NROWS 6 
 #define NCOLS 11
 extern void memory_report(void);
-const char* NOTES[] = {"A", "A#", "B", "C", "C#", "D",
-                       "D#", "E", "F", "F#", "G","G#"};
 
-const char* DURATIONS[] = {"WN", "HN", "QN", "EN"};
+static const char* NOTES[] = {"A", "A#", "B", "C", "C#", "D",
+                       "D#", "E", "F", "F#", "G","G#"};
+static const char* DURATIONS[] = {"WN", "HN", "QN", "EN"};
 
 void finish_loop(void) {
     while(1) {

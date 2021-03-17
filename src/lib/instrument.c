@@ -17,7 +17,6 @@
 /* Grid of all notes that correspond to components grid*/
 static note_t notes[12];
 static instrument_config_t cfg;
-
 /*Populates the notes grid with all the musical notes*/
 static void populate_notes(void);
 
@@ -37,12 +36,25 @@ void instrument_init(void)
 
 static void populate_notes(void)
 {
+    const char* NOTES[] = {"A", "A#", "B", "C", "C#", "D",
+                           "D#", "E", "F", "F#", "G","G#"};
+    int base_feqs[12] = {NOTE_A1, NOTE_AS1, NOTE_B0, NOTE_C1, NOTE_CS1,
+        NOTE_D1, NOTE_DS1, NOTE_E1, NOTE_F1, NOTE_FS1, NOTE_G1, NOTE_GS1};
+
+    for (int i = 0; i < 12; ++i) {
+        notes[i].name = NOTES[i];
+        notes[i].base_freq = base_feqs[i];
+    }
 }
 
 void next_frame(void)
 {
-    cfg.piece[++cfg.current_frame] = malloc(sizeof(notes));
-    memset(cfg.piece[cfg.current_frame], 0, sizeof(notes));
+    int sz = sizeof(int) * 12;
+    cfg.piece[++cfg.current_frame] = malloc(sz);
+    printf("%d\n", sz);
+    memset(cfg.piece[cfg.current_frame], 0, sz);
+    cfg.piece_pitch[cfg.current_frame] = malloc(sz);
+    memset(cfg.piece_pitch[cfg.current_frame], 4, sz);
 }
 
 /* On click buttons*/

@@ -24,16 +24,17 @@
  * Struct definition for a note configuration
  */
 typedef struct {
-    unsigned char note_name; //name of the note
-    unsigned char sharp_state; //'S' for a sharp note, 'N' for a normal note
+    const char* name; //name of the note
     const uint16_t *waveform; //sine wave unique to the note
-    unsigned int pitch; //specifies the pitch/octave of the note
+    int base_freq;
 } note_t;
 
 typedef int* choord_t; //A choord is a grid of bools that correspond to notes grid
+typedef int* choord_pitch_t; //choord pitch is a grid of the pitches of the notes that make up a choor
 
 typedef struct {
     choord_t* piece; //Array of choords that make up the musical piece
+    choord_pitch_t* piece_pitch; //Array of pitch of notes of choords
     unsigned int* lens; //Array of time of play of each choord(should be multiple of 4)
     int current_frame;
 } instrument_config_t;
