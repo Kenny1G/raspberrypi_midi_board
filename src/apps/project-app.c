@@ -64,10 +64,20 @@ void setup_time_buttons(void)
     int c = 0;
     int y_start = 0;
     int x_start = 0;
+    int duration = 1;
     for (int y = y_start; y <= y_start + 1; ++y) {
         for (int x = x_start; x <= x_start + 1; ++x) {
+            /*
+             * Auxiliary to duration component is 
+             * the time of play of the choord
+             */
+            int *aux = malloc(sizeof(int));
+            aux[0] = duration;
+            duration *= 2;
             igl_component_t*  i = igl_create_component(DURATIONS[c++], x, y, 
                     IGL_BUTTON, IGL_CHAR, gl_color(55, 0, 179));
+            igl_set_aux(i, aux);
+            igl_set_onclick(i, instrument_duration_onclick);
         }
     }
     igl_component_t* set_frame= igl_create_view_pane

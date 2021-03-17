@@ -52,8 +52,17 @@ void instrument_note_onclick(igl_component_t *cmpn)
     int ncols = ((int*)cmpn->aux_data)[2];
     /*Toggle the note in the choord*/
     cfg.piece[cfg.current_frame][(y * ncols) + x] ^= 1;
-    printf("x:%d, y:%d, work?: %d\n", x, y,
+    printf("x:%d, y:%d, note work?: %d\n", x, y,
             cfg.piece[cfg.current_frame][(y * ncols) + x]);
+}
+
+void instrument_duration_onclick(igl_component_t *cmpn)
+{
+    int duration = *((int*)cmpn->aux_data);
+    /*Toggle the note in the choord*/
+    cfg.lens[cfg.current_frame] = duration;
+    printf("duration work?: %d\n",
+        cfg.lens[cfg.current_frame]);
 }
 /*
 //written with the help of referencing melody.c from lecture (the gitHub path is cs107e.github.io/lectures/Sensors/code/sound/melody/melody.c)

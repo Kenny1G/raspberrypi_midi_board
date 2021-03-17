@@ -51,12 +51,18 @@ void instrument_init(void);
 void next_frame(void);
 
 /*
- * Onclick function for when notes component is clicked
+ * Onclick function for when a note component is clicked
  *
  * @param cmpn      note component that is clicked
  */
 void instrument_note_onclick(igl_component_t *cmpn);
 
+/*
+ * Onclick function for when a duration component is clicked
+ *
+ * @param cmpn      duration commponent that is clicked
+ */
+void instrument_duration_onclick(igl_component_t *cmpn);
 /*
  * Receives a pointer to the beginning of an array of note 
  * configurations and plays the sequence of notes
