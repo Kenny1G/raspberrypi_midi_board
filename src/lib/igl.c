@@ -7,6 +7,7 @@
 
 static igl_config_t cfg;
 static bool left_pressed;
+static int nextRotation;
 
 void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int row, unsigned int col, color_t background,
@@ -102,6 +103,8 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
                 cfg.c_width, cfg.c_height, type, shape, color);
         cfg.grid[(y * cfg.col) + x] = pRet;
 
+        pRet->rotation = nextRotation;
+        nextRotation = 0;
         igl_component_draw(pRet);
         return pRet; 
     }
@@ -115,7 +118,6 @@ igl_component_t* igl_create_view_pane(const char* name, int start_x, int start_y
     get_start(end_x, end_y, &e_x, &e_y);
     unsigned int width = (e_x - s_x) + cfg.c_width ;
     unsigned int height = (e_y - s_y) + cfg.c_height;
-    printf("x:%d, y:%d, width:%d, height:%d\n", start_x, start_y, width, height);
 
     if (cfg.grid[(start_y * cfg.col) + start_x] == 0) {
         igl_component_t* pRet = igl_component_new(name, s_x, s_y, 
@@ -136,6 +138,11 @@ void igl_set_aux(igl_component_t* component, void* aux_data)
 void igl_set_onclick(igl_component_t* component, onclick_fn_t fn) 
 {
     component->fn = fn;
+}
+
+void igl_set_next_rotation(int rotation)
+{
+    nextRotation = rotation;
 }
 
 unsigned int igl_get_res_width(void) { return gl_get_width(); }

@@ -28,6 +28,7 @@ struct  igl_component{
     bool highlight;
     bool hover;
     void* aux_data;
+    int rotation;
 };
 
 /*

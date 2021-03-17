@@ -117,6 +117,14 @@ void igl_set_onclick(igl_component_t* component, onclick_fn_t fn);
  */
 void igl_set_aux(igl_component_t* component, void* aux_data);
 
+/* 
+ * Sets the rotation of the next created component
+ * Only useful with components of shape IGL_TRIA
+ *
+ * @param rotation      rotation of next created component
+ */
+void igl_set_next_rotation(int rotation);
+
 /* Getters for igl dimensions */
 unsigned int igl_get_res_width(void);
 unsigned int igl_get_res_height(void);

@@ -19,6 +19,7 @@ igl_component_t *igl_component_new(const char* name, int x, int y,
     cmp->type = type;
     cmp->shape = shape;
     cmp->color = color;
+    cmp->rotation = 0;
     return cmp;
 }
 
@@ -43,7 +44,18 @@ void igl_component_draw(igl_component_t* component)
             gl_draw_string(x + char_offset, y + h/2, component->name, alt_c);
             break;
         case IGL_TRIA:
-            gl_draw_triangle(x + w/2, y, x, y + h, x + w, y + h, c);
+            if (component->rotation == 0) {
+                gl_draw_triangle(x + w/2, y, x, y + h, x + w, y + h, c);
+            }
+            else if (component->rotation == 90) {
+                gl_draw_triangle(x, y, x, y + h, x + w, y + h/2, c);
+            }
+            else if (component->rotation == -90) {
+                gl_draw_triangle(x + w, y, x, y + h/2, x + w, y + h, c);
+            }
+            else if (component->rotation == 180) {
+                gl_draw_triangle(x + w/2, y + h, x, y, x + w, y, c);
+            }
             break;
     }
 }

@@ -40,6 +40,7 @@ void setup_note_buttons(void)
 
     igl_component_t*  pitch_up= igl_create_component("pitch_up", 7, 1, 
             IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_set_next_rotation(180);
     igl_component_t*  pitch_down= igl_create_component("pitch_down", 7, 2, 
             IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
 }
@@ -70,13 +71,16 @@ void setup_music_frame(void)
 
     igl_component_t*  scroll_up= igl_create_component("scroll_up",
             NCOLS - 3, 4, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_set_next_rotation(180);
     igl_component_t*  scroll_down= igl_create_component("scroll_down",
             NCOLS - 3, 5, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
 
+    igl_set_next_rotation(90);
     igl_component_t*  play_frame = igl_create_component("play_frame",
             NCOLS - 2, 4, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_set_next_rotation(90);
     igl_component_t*  play_all = igl_create_component("play_all",
-            NCOLS - 1, 4, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+            NCOLS - 1, 5, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
 }
 void setup_ui(void)
 {
