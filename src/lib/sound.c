@@ -16,7 +16,7 @@ int* tonesinwave(unsigned int freq, unsigned int duration) {
 int* superposition(int* firsttone, int* secondtone, int aWeight, int bWeight) {
     int* newwave = malloc(sizeof(firsttone));
     for (int i = 0; i < sizeof(firsttone); i++) {
-    	newwave[i] = (aWeight*firsttone[i]) + (aWeight*secondtone[i]);
+    	newwave[i] = (aWeight*firsttone[i]) + (bWeight*secondtone[i]);
     }
     free(firsttone);
     free(secondtone);
