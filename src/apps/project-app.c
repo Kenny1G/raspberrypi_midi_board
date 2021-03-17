@@ -9,8 +9,8 @@
 #include "gpio_interrupts.h"
 #include "keyboard.h"
 
-#define NROWS 5 
-#define NCOLS 10
+#define NROWS 6 
+#define NCOLS 11
 extern void memory_report(void);
 const char* NOTES[] = {"A", "A#", "B", "C", "C#", "D",
                        "D#", "E", "F", "F#", "G","G#"};
@@ -37,6 +37,11 @@ void setup_note_buttons(void)
                     IGL_BUTTON, IGL_CHAR, gl_color(55, 0, 179));
         }
     }
+
+    igl_component_t*  pitch_up= igl_create_component("pitch_up", 7, 1, 
+            IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_component_t*  pitch_down= igl_create_component("pitch_down", 7, 2, 
+            IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
 }
 
 void setup_time_buttons(void)
@@ -50,18 +55,41 @@ void setup_time_buttons(void)
                     IGL_BUTTON, IGL_CHAR, gl_color(55, 0, 179));
         }
     }
+    igl_component_t* set_frame= igl_create_view_pane
+        ("set_frame", 0, 2, 1, 2, gl_color(55,0, 179));
 }
 
+void setup_music_frame(void)
+{
+    igl_component_t* prev_music_frame = igl_create_view_pane
+        ("prev_music_frame", 2, 3, NCOLS - 4, 3, gl_color(55,0, 179));
+    igl_component_t* curr_music_frame = igl_create_view_pane
+        ("curr_music_frame", 2, 4, NCOLS - 4, 4, gl_color(55,0, 179));
+    igl_component_t* next_music_frame = igl_create_view_pane
+        ("next_music_frame", 2, 5, NCOLS - 4, 5, gl_color(55,0, 179));
+
+    igl_component_t*  scroll_up= igl_create_component("scroll_up",
+            NCOLS - 3, 4, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_component_t*  scroll_down= igl_create_component("scroll_down",
+            NCOLS - 3, 5, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+
+    igl_component_t*  play_frame = igl_create_component("play_frame",
+            NCOLS - 2, 4, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+    igl_component_t*  play_all = igl_create_component("play_all",
+            NCOLS - 1, 4, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
+}
 void setup_ui(void)
 {
-    int cell_width = ((gl_get_char_width() + 5) * 2);
-    int cell_height = ((gl_get_char_height() + 5) * 2);
+    int scale = 3;
+    int cell_width = ((gl_get_char_width() + 5) * scale);
+    int cell_height = ((gl_get_char_height() + 5) * scale);
     unsigned int width =   cell_width * NCOLS;
     unsigned int height =   cell_height * NROWS;
     igl_init(width, height, NROWS, NCOLS, GL_BLACK,
-            (gl_get_char_width() * 2), (gl_get_char_height() * 2));
+            (gl_get_char_width() * scale), (gl_get_char_height() * scale));
     setup_note_buttons();
     setup_time_buttons();
+    setup_music_frame();
 
     finish_loop();
 }
