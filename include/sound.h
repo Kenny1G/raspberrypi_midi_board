@@ -1,19 +1,19 @@
 #ifndef SOUND_H_
 #define SOUND_H_
+
+#include <stdmath>
 /*
  * Functions for a bare metal Raspberry Pi 
  * that handles tones and sounds of output
- * Author: Rebecca Jia and Omar Ramos <rrjia@stanford.edu> 
+ * Author: Rebecca Jia and Omar Ramos <ramos16@stanford.edu> 
  * Date: Mar 16, 2021
  */
 
-/**********************************************************
- * TO-DO Omar: ADD DETAILS TO DESCRIPTIONS BELOW WHERE 
- * NECESSARY
-**********************************************************/
-
 /*
-* TO-DO OMAR: Function description
+* Creates and allocates the space for a sin wave at a given frequency for a duration in seconds
+* @param freq	      frequency of the note wanted in Hz
+* @param duration     duration in seconds for the frequency
+* @return             returns a pointer to an array with discrete sin values
 */
 int* tonesinwave(unsigned int freq, unsigned int duration);
 
