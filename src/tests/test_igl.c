@@ -8,6 +8,8 @@
 #include "interrupts.h"
 #include "gpio_interrupts.h"
 #include "keyboard.h"
+#include "debug.h"
+
 extern void memory_report(void);
 
 void finish_loop(void) {
@@ -46,10 +48,6 @@ void test_igl_update_mouse(void)
     printf("Testing mouse leaves complex framebuffer undisturbed\n");
     printf("Press middle mouse to stop\n");
     igl_init(1920, 1080, 10, 10, GL_CYAN, 10, 10);
-    gl_draw_triangle(100, 40, 40, 300, 700, 300, GL_RED); 
-    gl_draw_line(0, 0, 799, 599, GL_CAYENNE);
-    gl_draw_line(799, 0, 0, 599,GL_CAYENNE);
-    gl_swap_buffer();
     gl_draw_triangle(100, 40, 40, 300, 700, 300, GL_RED); 
     gl_draw_line(0, 0, 799, 599, GL_CAYENNE);
     gl_draw_line(799, 0, 0, 599,GL_CAYENNE);
@@ -93,8 +91,8 @@ void main(void)
     mouse_init(KEYBOARD_CLOCK, KEYBOARD_DATA);
     printf("Executing main() in test_igl.c\n");
 
-    //test_gl_init();
-    //test_igl_update_mouse();
+    test_gl_init();
+    test_igl_update_mouse();
     test_igl_component();
 
     printf("Completed main() in test_igl.c\n");

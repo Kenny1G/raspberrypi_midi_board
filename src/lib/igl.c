@@ -7,6 +7,7 @@
 
 const int padding = 1;
 static igl_config_t cfg;
+static bool left_pressed;
 
 void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int row, unsigned int col, color_t background,
@@ -32,20 +33,22 @@ int igl_update_mouse(mouse_event_t evt)
 {
     if (evt.dx != 0|| evt.dy != 0) 
         igl_mouse_update(evt);
+    if (evt.action == MOUSE_BUTTON_PRESS && evt.left == 1)
+        left_pressed = true;
     /* A component is clicked if the user releases a mouse button on it*/
-    if (evt.action == MOUSE_BUTTON_RELEASE) {
+    if (evt.action == MOUSE_BUTTON_RELEASE && left_pressed) {
         unsigned int grid_x = igl_mouse_get_x() / (gl_get_width() / cfg.col);
         unsigned int grid_y = igl_mouse_get_y() / (gl_get_height() / cfg.row);
         igl_component_t *comp = cfg.grid[(grid_y * cfg.col) + grid_x];
         if (comp->fn != 0)
             comp->fn(comp); 
+        left_pressed = false;
     }
     return 0;
 }
 
 void igl_clean(void)
 {
-    free(cfg.grid);
     for (int y = 0; y < cfg.row; ++y) {
         for (int x = 0; x < cfg.col; ++x) {
             igl_component_t *comp = cfg.grid[(y * cfg.col) + x];
@@ -55,6 +58,8 @@ void igl_clean(void)
                 free(comp);
         }
     }
+    free(cfg.grid);
+    cfg.grid = 0;
 
     igl_mouse_clean();
 }
