@@ -47,3 +47,24 @@ void debug_print_igl_grid(igl_config_t cfg)
         printf("\n");
     }
 }
+
+void debug_print_component_meta(igl_component_t comp)
+{
+    printf("name: %s, x:%d y:%d, width:%d, height:%d, color:%x, shape:%d,"
+            "type:%d, fn:%x, alt_color:%x, highlight:%d, hover:%d, aux_data:%x,"
+            "rotation:%d\n", 
+            comp.name,
+            comp.x,
+            comp.y,
+            comp.width,
+            comp.height,
+            comp.color,
+            comp.shape,
+            comp.type,
+            (unsigned int)comp.fn,
+            comp.alt_color,
+            comp.highlight,
+            comp.hover,
+            (unsigned int)comp.aux_data,
+            comp.rotation);
+}
