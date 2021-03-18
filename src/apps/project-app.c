@@ -21,8 +21,6 @@ static const char* NOTES[] = {"A", "A#", "B", "C", "C#", "D",
                        "D#", "E", "F", "F#", "G","G#"};
 static const char* DURATIONS[] = {"WN", "HN", "QN", "EN"};
 static instrument_config_t *instrument_config;
-static int up = 1;
-static int down = -1;
 
 void finish_loop(void) {
     while(1) {
@@ -61,13 +59,17 @@ void setup_note_buttons(void)
     igl_component_t*  pitch_up= igl_create_component("pitch_up", 7, 1, 
             IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
     igl_set_onclick(pitch_up, instrument_pitch_change_onclick);
-    igl_set_aux(pitch_up, &up);
+    int *up = malloc(sizeof(int));
+    up[0] = 1;
+    igl_set_aux(pitch_up, up);
 
     igl_set_next_rotation(180);
     igl_component_t*  pitch_down= igl_create_component("pitch_down", 7, 2, 
             IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
     igl_set_onclick(pitch_down, instrument_pitch_change_onclick);
-    igl_set_aux(pitch_down, &down);
+    int *down = malloc(sizeof(int));
+    down[0] = -1;
+    igl_set_aux(pitch_down, down);
 }
 
 void setup_time_buttons(void)
