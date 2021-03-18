@@ -38,7 +38,11 @@ void debug_print_igl_grid(igl_config_t cfg)
     for (int y = 0; y < cfg.row; ++y) {
         for (int x = 0; x < cfg.col; ++x) {
             int index = (y * cfg.col) + x;
-            printf("%s ",cfg.grid[index]->name);
+            igl_component_t *cmpn = cfg.grid[index];
+            if (cmpn != 0)
+                printf("%s ",cfg.grid[index]->name);
+            else
+                printf("NA ");
         }
         printf("\n");
     }

@@ -24,7 +24,7 @@ void igl_init(unsigned int res_width, unsigned int res_height,
     cfg.background = background;
     gl_clear(background);
 
-    igl_mouse_init(gl_get_width(), gl_get_height(), 5, GL_RED);
+    igl_mouse_init(gl_get_width(), gl_get_height(), col, GL_RED);
     /*Initialize grid*/
     cfg.grid = malloc(sizeof(void*) * row * col);
     memset(cfg.grid, 0, sizeof(void*) * row * col);
