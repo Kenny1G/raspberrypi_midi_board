@@ -9,11 +9,26 @@ static igl_config_t cfg;
 static bool left_pressed;
 static int nextRotation;
 
+/*
+ * Calculates the starting x and y locations for the framebuffer from the
+ * x and y index on the grid of components
+ *
+ * @param grid_x        grid x index of component
+ * @param grid_y        grid y index of component
+ * @param start_x       pointer to variable to store starting x coord
+ * @param start_y       pointer to variable to store starting y coord
+ */
+static void get_start(int grid_x, int grid_y, int *start_x, int *start_y);
+
 void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int row, unsigned int col, color_t background,
         unsigned int c_width, unsigned int c_height) 
 {
-    /*TODO(kenny): add in an error check that ensures row x col components of size c_width x c_height can fit in res_width x res_height*/
+    /* 
+     * TODO(kenny): add in an error check that ensures 
+     * row x col components of size c_width x c_height 
+     * can fit in res_width x res_height
+     */
     cfg.row = row;
     cfg.col = col;
     cfg.c_height = c_height;
@@ -70,15 +85,6 @@ void igl_clean(void)
 
 igl_config_t *igl_get_config(void) { return &cfg; }
 
-/*
- * Calculates the starting x and y locations for the framebuffer from the
- * x and y index on the grid of components
- *
- * @param grid_x        grid x index of component
- * @param grid_y        grid y index of component
- * @param start_x       pointer to variable to store starting x coord
- * @param start_y       pointer to variable to store starting y coord
- */
 static void get_start(int grid_x, int grid_y, int *start_x, int *start_y) {
     /*Calculate x and y of the component*/
     unsigned int cell_width = gl_get_width() / cfg.col;
