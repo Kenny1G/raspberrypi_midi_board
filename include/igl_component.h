@@ -64,11 +64,15 @@ igl_component_t *igl_component_new(const char* name, int x, int y,
  * @param end_x             end x coordinate of view pane
  * @param end_y             end y coordinate of view pane       
  */
-void igl_component_new_viewpane(igl_component_t *component, int end_x, int end_y);
+void igl_component_new_viewpane(igl_component_t *component,
+        int end_x, int end_y, int nrows, int ncols);
 
 /*
  * Draws `component` to the framebuffer based on it's current state
  */
 void igl_component_draw(igl_component_t* component);
+
+void igl_component_draw_on_pane(igl_component_t* view_pane_component, 
+        const char* label);
 
 #endif

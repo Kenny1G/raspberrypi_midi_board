@@ -91,6 +91,7 @@ void setup_time_buttons(void)
     igl_component_t* set_frame= igl_create_view_pane
         ("set_frame", 0, 2, 1, 2, gl_color(55,0, 179));
     igl_set_onclick(set_frame, instrument_set_frame_onclick);
+    igl_component_draw_on_pane(set_frame, "FRAME");
 }
 
 void setup_music_frame(void)

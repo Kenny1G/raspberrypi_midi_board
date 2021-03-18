@@ -3,6 +3,7 @@
 #include "strings.h"
 #include "timer.h"
 #include "printf.h"
+#include "debug.h"
 
 igl_component_t *igl_component_new(const char* name, int x, int y,
         unsigned int width, unsigned int height,
@@ -60,11 +61,15 @@ void igl_component_draw(igl_component_t* component)
     }
 }
 
-void igl_component_new_viewpane(igl_component_t *component, int end_x, int end_y) 
+void igl_component_new_viewpane(igl_component_t *component,
+        int end_x, int end_y, int nrows, int ncols) 
 {
     igl_viewpane_t * viewpane = malloc(sizeof(igl_viewpane_t));
     component->aux_data = viewpane;
     viewpane->component = component;
+    viewpane->nrows = nrows;
+    viewpane->ncols = ncols;
+    printf("viewpane cols: %d rows: %d\n",ncols, nrows);
     component->type = IGL_VIEW_PANE;
     unsigned int width = (end_x - component->x) + component->width;
     unsigned int height = (end_y - component->y) + component->height;
@@ -73,4 +78,17 @@ void igl_component_new_viewpane(igl_component_t *component, int end_x, int end_y
         width, height, component->color, IGL_RECT};
     igl_component_draw(&dummy);
 
+}
+
+void igl_component_draw_on_pane(igl_component_t* component, 
+        const char* label)
+{ 
+    igl_viewpane_t *vp = (igl_viewpane_t*)component->aux_data;
+    unsigned int width = component->width * vp->ncols;
+    unsigned int height = component->height * vp->nrows;
+    igl_component_t dummy = {label, component->x, component->y,
+        width, height, component->color, IGL_CHAR, 0, 0, component->alt_color};
+    debug_print_component_meta(dummy);
+
+    igl_component_draw(&dummy);
 }

@@ -39,7 +39,7 @@ void igl_init(unsigned int res_width, unsigned int res_height,
     cfg.background = background;
     gl_clear(background);
 
-    igl_mouse_init(gl_get_width(), gl_get_height(), col, GL_RED);
+    igl_mouse_init(gl_get_width(), gl_get_height(), 7, GL_RED);
     /*Initialize grid*/
     cfg.grid = malloc(sizeof(void*) * row * col);
     memset(cfg.grid, 0, sizeof(void*) * row * col);
@@ -120,11 +120,13 @@ igl_component_t* igl_create_view_pane(const char* name, int start_x, int start_y
     int s_x, s_y, e_x, e_y;
     get_start(start_x, start_y, &s_x, &s_y);
     get_start(end_x, end_y, &e_x, &e_y);
+    int ncols = end_x -start_x +1;
+    int nrows = end_y -start_y +1;
 
     if (cfg.grid[(start_y * cfg.col) + start_x] == 0) {
         igl_component_t* pRet = igl_component_new(name, s_x, s_y, 
                 cfg.c_width, cfg.c_height, IGL_VIEW_PANE, IGL_RECT, color);
-        igl_component_new_viewpane(pRet, e_x, e_y);
+        igl_component_new_viewpane(pRet, e_x, e_y, nrows, ncols);
         for (int y = start_y; y <= end_y; ++y) {
             for (int x = start_x; x <= end_x; ++x) {
                 if (cfg.grid[(y * cfg.col) + x] == 0)
