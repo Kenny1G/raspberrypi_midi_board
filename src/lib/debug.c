@@ -48,10 +48,15 @@ void debug_print_igl_grid(igl_config_t cfg)
     }
 }
 
-void debug_print_component_meta(igl_component_t comp)
+void debug_print_component_meta(igl_component_t *c)
 {
-    printf("name: %s, x:%d y:%d, width:%d, height:%d, color:%x, shape:%d,"
-            "type:%d, fn:%x, alt_color:%x, highlight:%d, hover:%d, aux_data:%x,"
+    if (c == 0) {
+        printf("NA\n");
+        return;
+    }
+    igl_component_t comp = *c;
+    printf("\nname: %s, x:%d y:%d, width:%d, height:%d, color:%x, shape:%d, "
+            "type:%d, fn:%x, alt_color:%x, highlight:%d, hover:%d, aux_data:%x, "
             "rotation:%d\n", 
             comp.name,
             comp.x,
