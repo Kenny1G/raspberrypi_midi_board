@@ -19,19 +19,24 @@ static note_t notes[12];
 static instrument_config_t cfg;
 /*Populates the notes grid with all the musical notes*/
 static void populate_notes(void);
+static int last_on_note_index = -1;
 
 void instrument_init(void)
 {
     /*Initialize space for shell*/
     populate_notes();
+    /*piece is an array of choords of max length*/
     cfg.piece = malloc(MAX_LENGTH * sizeof(choord_t*));
     memset(cfg.piece, 0, MAX_LENGTH * sizeof(choord_t*));
 
+    cfg.piece_pitch = malloc(MAX_LENGTH * sizeof(choord_pitch_t*));
+    memset(cfg.piece_pitch, 0, MAX_LENGTH * sizeof(choord_pitch_t*));
+
     cfg.lens = malloc(MAX_LENGTH * sizeof(int));
     memset(cfg.lens, 0, MAX_LENGTH * sizeof(int));
+
     cfg.current_frame = -1;
     next_frame();
-
 }
 
 static void populate_notes(void)
@@ -49,12 +54,14 @@ static void populate_notes(void)
 
 void next_frame(void)
 {
+    /*12 ints to hold the on state and pitch of each note in a choord*/
     int sz = sizeof(int) * 12;
     cfg.piece[++cfg.current_frame] = malloc(sz);
-    printf("%d\n", sz);
     memset(cfg.piece[cfg.current_frame], 0, sz);
+
     cfg.piece_pitch[cfg.current_frame] = malloc(sz);
-    memset(cfg.piece_pitch[cfg.current_frame], 4, sz);
+    for(int i = 0; i < 12; ++i)
+        cfg.piece_pitch[cfg.current_frame][i] = 4;
 }
 
 /* On click buttons*/
@@ -63,14 +70,36 @@ void instrument_note_onclick(igl_component_t *cmpn)
     int x = ((int*)cmpn->aux_data)[0];
     int y = ((int*)cmpn->aux_data)[1];
     int ncols = ((int*)cmpn->aux_data)[2];
+    int index = (y * ncols) + x;
     /*Toggle the note in the choord*/
-    cfg.piece[cfg.current_frame][(y * ncols) + x] ^= 1;
-    printf("x:%d, y:%d, note work?: %d\n", x, y,
-            cfg.piece[cfg.current_frame][(y * ncols) + x]);
+    int is_on = cfg.piece[cfg.current_frame][index]; 
+    is_on ^= 1;
+
+    /*
+     * Set note as last set to on
+     * If note is set to off, reset it's pitch to 4
+     */
+    if (is_on)
+        last_on_note_index = index;
+    else {
+        last_on_note_index = -1;
+        cfg.piece_pitch[cfg.current_frame][index] = 4;
+    }
+
+    printf("x:%d, y:%d, note work?: %d\n", x, y, is_on);
+    cfg.piece[cfg.current_frame][index] = is_on;
 }
 
-void instrument_pitch_up_onclick(igl_component_t *cmpn){}
-void instrument_pitch_down_onclick(igl_component_t *cmpn){}
+void instrument_pitch_change_onclick(igl_component_t *cmpn)
+{
+    int change = *(int*)cmpn->aux_data;
+    if (last_on_note_index != -1) {
+        cfg.piece_pitch[cfg.current_frame][last_on_note_index] += change;
+        printf("change: %d, index:%d, pitch:%d\n",
+                change, last_on_note_index,
+                cfg.piece_pitch[cfg.current_frame][last_on_note_index]); 
+    }
+}
 
 void instrument_duration_onclick(igl_component_t *cmpn)
 {

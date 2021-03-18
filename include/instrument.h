@@ -30,12 +30,12 @@ typedef struct {
 } note_t;
 
 typedef int* choord_t; //A choord is a grid of bools that correspond to notes grid
-typedef int* choord_pitch_t; //choord pitch is a grid of the pitches of the notes that make up a choor
+typedef int* choord_pitch_t; //A choord's pitch is a grid of the pitches of the notes that make up the choord
 
 typedef struct {
     choord_t* piece; //Array of choords that make up the musical piece
-    choord_pitch_t* piece_pitch; //Array of pitch of notes of choords
-    unsigned int* lens; //Array of time of play of each choord(should be multiple of 4)
+    choord_pitch_t* piece_pitch; //Array of pitches that make up the piece
+    unsigned int* lens; //Array of duration of each choord(should be multiple of 4)
     int current_frame;
 } instrument_config_t;
 
@@ -65,8 +65,7 @@ void instrument_note_onclick(igl_component_t *cmpn);
  */
 void instrument_duration_onclick(igl_component_t *cmpn);
 
-void instrument_pitch_up_onclick(igl_component_t *cmpn);
-void instrument_pitch_down_onclick(igl_component_t *cmpn);
+void instrument_pitch_change_onclick(igl_component_t *cmpn);
 void instrument_set_frame_onclick(igl_component_t *cmpn);
 void instrument_frame_onclick(igl_component_t *cmpn);
 void instrument_scroll_up_onclick(igl_component_t *cmpn);
