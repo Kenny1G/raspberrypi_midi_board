@@ -51,6 +51,13 @@ void instrument_init(void);
 void next_frame(void);
 
 /*
+ * Returns config
+ *
+ * @return      instrument_config_t created in init
+ */
+instrument_config_t* instrument_get_config(void);
+
+/*
  * Onclick functions for when a component is clicked
  *
  * @param cmpn      component that is clicked

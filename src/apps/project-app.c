@@ -13,11 +13,13 @@
 
 #define NROWS 6 
 #define NCOLS 11
+extern const int MAX_INSTRUMENT_FRAMES;
 extern void memory_report(void);
 
 static const char* NOTES[] = {"A", "A#", "B", "C", "C#", "D",
                        "D#", "E", "F", "F#", "G","G#"};
 static const char* DURATIONS[] = {"WN", "HN", "QN", "EN"};
+static instrument_config_t *instrument_config;
 static int up = 1;
 static int down = -1;
 
@@ -151,6 +153,7 @@ void main(void)
     mouse_init(KEYBOARD_CLOCK, KEYBOARD_DATA);
 
     instrument_init();
+    instrument_config = instrument_get_config();
     setup_ui();
 
     memory_report();
