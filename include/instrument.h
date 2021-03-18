@@ -46,6 +46,8 @@ typedef struct {
  */
 void instrument_init(void);
 
+void instrument_clean(void);
+
 /*
  * Allocates space for the next frame and updates cfg.current_frame
  */

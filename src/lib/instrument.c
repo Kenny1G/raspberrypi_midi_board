@@ -43,6 +43,22 @@ void instrument_init(void)
     next_frame();
 }
 
+void instrument_clean()
+{
+    int i = cfg.current_frame;
+    while (i >= 0) {
+        free(cfg.piece_pitch[i]);
+        free(cfg.piece[i--]);
+    }
+    free(cfg.piece);
+
+    free(cfg.piece_pitch);
+
+    free(cfg.lens);
+
+    free(cfg.frame_labels);
+}
+
 static void populate_notes(void)
 {
     const char* NOTES[] = {"A", "A#", "B", "C", "C#", "D",
@@ -60,7 +76,6 @@ instrument_config_t *instrument_get_config(void) { return &cfg; }
 
 void next_frame(void)
 {
-    cfg.frame_labels[cfg.current_frame] = "F";
     /*12 ints to hold the on state and pitch of each note in a choord*/
     int sz = sizeof(int) * 12;
     cfg.piece[++cfg.current_frame] = malloc(sz);

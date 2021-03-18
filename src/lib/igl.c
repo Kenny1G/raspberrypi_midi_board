@@ -71,10 +71,14 @@ void igl_clean(void)
     for (int y = 0; y < cfg.row; ++y) {
         for (int x = 0; x < cfg.col; ++x) {
             igl_component_t *comp = cfg.grid[(y * cfg.col) + x];
-            if (comp->aux_data != 0)
+            if (comp->aux_data != 0) {
                 free(comp->aux_data);
-            if (comp != 0)
+                comp->aux_data = 0;
+            }
+            if (comp != 0 && comp->name != 0) {
                 free(comp);
+                comp->name = 0;
+            }
         }
     }
     free(cfg.grid);

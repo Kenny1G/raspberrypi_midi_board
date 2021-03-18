@@ -30,7 +30,6 @@ void finish_loop(void) {
         igl_update_mouse(evt);
         if (evt.action == MOUSE_BUTTON_PRESS && evt.middle) break;
     }
-    igl_clean();
 }
 
 void setup_note_buttons(void)
@@ -58,6 +57,7 @@ void setup_note_buttons(void)
         }
     }
 
+    /*Buttons to increase and decrease pitch of notes*/
     igl_component_t*  pitch_up= igl_create_component("pitch_up", 7, 1, 
             IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
     igl_set_onclick(pitch_up, instrument_pitch_change_onclick);
@@ -127,7 +127,10 @@ void setup_music_frame(void)
     igl_component_t*  scroll_down= igl_create_component("scroll_down",
             NCOLS - 1, 5, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
     igl_set_onclick(scroll_down, instrument_scroll_down_onclick);
+}
 
+void setup_play(void)
+{
     igl_set_next_rotation(90);
     igl_component_t*  play_frame = igl_create_component("play_frame",
             NCOLS - 4, 0, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
@@ -138,6 +141,7 @@ void setup_music_frame(void)
             NCOLS - 1, 3, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
     igl_set_onclick(play_all, instrument_play_all_onclick);
 }
+
 void setup_ui(void)
 {
     int scale = 3;
@@ -150,9 +154,10 @@ void setup_ui(void)
     setup_note_buttons();
     setup_time_buttons();
     setup_music_frame();
+    setup_play();
 
-    //debug_print_igl_grid(*igl_get_config());
     finish_loop();
+    igl_clean();
 }
 void main(void)
 {
@@ -167,6 +172,7 @@ void main(void)
     instrument_init();
     instrument_config = instrument_get_config();
     setup_ui();
+    instrument_clean();
 
     memory_report();
     uart_putchar(EOT);
