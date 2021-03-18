@@ -134,7 +134,7 @@ void igl_set_next_rotation(int rotation);
  * @param buffer            buffer to attatch to component
  */
 void igl_set_viewpane_buffer(igl_component_t* component,
-        const char** buffer, int bufsize);
+        char** buffer, int bufsize);
 
 /* Getters for igl dimensions */
 unsigned int igl_get_res_width(void);

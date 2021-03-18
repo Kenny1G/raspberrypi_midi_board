@@ -36,7 +36,7 @@ typedef struct {
     igl_component_t *component;
     int nrows;
     int ncols;
-    const char** buffer;
+    char** buffer;
     int bufsize;
     int start_y; //row of buffer to start displaying from
     int padding_x;

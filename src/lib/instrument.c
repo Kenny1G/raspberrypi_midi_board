@@ -36,8 +36,8 @@ void instrument_init(void)
     cfg.lens = malloc(MAX_INSTRUMENT_FRAMES * sizeof(int));
     memset(cfg.lens, 0, MAX_INSTRUMENT_FRAMES * sizeof(int));
 
-    cfg.frame_labels  = malloc(MAX_INSTRUMENT_FRAMES * sizeof(const char*));
-    memset(cfg.frame_labels, 0, MAX_INSTRUMENT_FRAMES * sizeof(const char*));
+    cfg.frame_labels  = malloc(MAX_INSTRUMENT_FRAMES * sizeof(char*));
+    memset(cfg.frame_labels, 0, MAX_INSTRUMENT_FRAMES * sizeof(char*));
 
     cfg.current_frame = -1;
     next_frame();
@@ -48,15 +48,13 @@ void instrument_clean()
     int i = cfg.current_frame;
     while (i >= 0) {
         free(cfg.piece_pitch[i]);
+        free(cfg.frame_labels[i]);
         free(cfg.piece[i--]);
     }
     free(cfg.piece);
-
     free(cfg.piece_pitch);
-
-    free(cfg.lens);
-
     free(cfg.frame_labels);
+    free(cfg.lens);
 }
 
 static void populate_notes(void)
@@ -76,6 +74,11 @@ instrument_config_t *instrument_get_config(void) { return &cfg; }
 
 void next_frame(void)
 {
+    if (cfg.current_frame != -1) {
+        cfg.frame_labels[cfg.current_frame] = malloc(2);
+        memset(cfg.frame_labels[cfg.current_frame], 0, 2);
+        cfg.frame_labels[cfg.current_frame][0] = 'F';
+    }
     /*12 ints to hold the on state and pitch of each note in a choord*/
     int sz = sizeof(int) * 12;
     cfg.piece[++cfg.current_frame] = malloc(sz);
