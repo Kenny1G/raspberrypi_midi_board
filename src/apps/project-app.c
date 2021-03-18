@@ -22,7 +22,8 @@ static const char* NOTES[] = {"A", "A#", "B", "C", "C#", "D",
 static const char* DURATIONS[] = {"WN", "HN", "QN", "EN"};
 static instrument_config_t *instrument_config;
 
-void finish_loop(void) {
+void finish_loop(void) 
+{
     while(1) {
         mouse_event_t evt = mouse_read_event();
         igl_update_mouse(evt);
@@ -116,7 +117,6 @@ void setup_music_frame(void)
      * it to frame so when it's clicked it can update the frame
      * when it is clicked
      */
-    printf("frame aux: %x\n",(unsigned int)set_frame->aux_data);
     free(set_frame->aux_data);
     igl_set_aux(set_frame, frame);
 

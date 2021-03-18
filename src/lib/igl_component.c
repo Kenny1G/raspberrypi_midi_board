@@ -69,13 +69,16 @@ void igl_component_new_viewpane(igl_component_t *component,
     viewpane->component = component;
     viewpane->nrows = nrows;
     viewpane->ncols = ncols;
-    printf("viewpane cols: %d rows: %d\n",ncols, nrows);
     component->type = IGL_VIEW_PANE;
     unsigned int width = (end_x - component->x) + component->width;
     unsigned int height = (end_y - component->y) + component->height;
 
-    igl_component_t dummy = {"", component->x, component->y,
-        width, height, component->color, IGL_RECT};
+    /*oopsie whoopsie don't hard-code kids*/
+    viewpane->padding_x = 6;
+    viewpane->padding_y = 5;
+
+    igl_component_t dummy = {"", component->x, component->y, width,
+        height, component->color, IGL_RECT};
     igl_component_draw(&dummy);
 
 }
@@ -87,16 +90,12 @@ void igl_component_draw_on_pane(igl_component_t* component, const char* label)
     unsigned int height = component->height * vp->nrows;
     igl_component_t dummy = {label, component->x, component->y,
         width, height, component->color, IGL_CHAR, 0, 0, component->alt_color};
-    debug_print_component_meta(&dummy);
-
     igl_component_draw(&dummy);
 }
 
 void igl_component_update_viewpane(igl_component_t* cmpn)
 {
     igl_viewpane_t *vp = (igl_viewpane_t*)cmpn->aux_data;
-    debug_print_component_meta(cmpn);
-    printf("vp rows:%d, vp cols: %d\n", vp->nrows, vp->ncols);
 
     for (int y = 0; y < vp->nrows; ++y) {
         for (int x = 0; x < vp->ncols; ++x) {
