@@ -157,6 +157,14 @@ void igl_set_next_rotation(int rotation)
     nextRotation = rotation;
 }
 
+void igl_set_viewpane_buffer(igl_component_t* component,
+        const char** buffer, int bufsize)
+{
+    igl_viewpane_t* vp = (igl_viewpane_t*)component->aux_data;
+    vp->buffer = buffer;
+    vp->bufsize = bufsize;
+}
+
 unsigned int igl_get_res_width(void) { return gl_get_width(); }
 
 unsigned int igl_get_res_height(void) { return gl_get_height(); }

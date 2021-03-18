@@ -1,8 +1,9 @@
+#include "instrument.h"
 #include "printf.h"
 #include "strings.h"
 #include "uart.h"
-#include "instrument.h"
 #include "malloc.h"
+#include "debug.h"
 
 #include "timer.h"
 #include "gpio.h"
@@ -12,7 +13,6 @@
 #include "tone.h"
 #include "pitch.h"
 
-#define MAX_LENGTH 100
 
 /* Grid of all notes that correspond to components grid*/
 static note_t notes[12];
@@ -20,20 +20,24 @@ static instrument_config_t cfg;
 /*Populates the notes grid with all the musical notes*/
 static void populate_notes(void);
 static int last_on_note_index = -1;
+const int MAX_INSTRUMENT_FRAMES = 100;
 
 void instrument_init(void)
 {
     /*Initialize space for shell*/
     populate_notes();
     /*piece is an array of choords of max length*/
-    cfg.piece = malloc(MAX_LENGTH * sizeof(choord_t*));
-    memset(cfg.piece, 0, MAX_LENGTH * sizeof(choord_t*));
+    cfg.piece = malloc(MAX_INSTRUMENT_FRAMES * sizeof(choord_t*));
+    memset(cfg.piece, 0, MAX_INSTRUMENT_FRAMES * sizeof(choord_t*));
 
-    cfg.piece_pitch = malloc(MAX_LENGTH * sizeof(choord_pitch_t*));
-    memset(cfg.piece_pitch, 0, MAX_LENGTH * sizeof(choord_pitch_t*));
+    cfg.piece_pitch = malloc(MAX_INSTRUMENT_FRAMES * sizeof(choord_pitch_t*));
+    memset(cfg.piece_pitch, 0, MAX_INSTRUMENT_FRAMES * sizeof(choord_pitch_t*));
 
-    cfg.lens = malloc(MAX_LENGTH * sizeof(int));
-    memset(cfg.lens, 0, MAX_LENGTH * sizeof(int));
+    cfg.lens = malloc(MAX_INSTRUMENT_FRAMES * sizeof(int));
+    memset(cfg.lens, 0, MAX_INSTRUMENT_FRAMES * sizeof(int));
+
+    cfg.frame_labels  = malloc(MAX_INSTRUMENT_FRAMES * sizeof(const char*));
+    memset(cfg.frame_labels, 0, MAX_INSTRUMENT_FRAMES * sizeof(const char*));
 
     cfg.current_frame = -1;
     next_frame();
@@ -117,7 +121,11 @@ void instrument_duration_onclick(igl_component_t *cmpn)
         cfg.lens[cfg.current_frame]);
 }
 
-void instrument_set_frame_onclick(igl_component_t *cmpn) {}
+void instrument_set_frame_onclick(igl_component_t *cmpn) 
+{
+    next_frame();
+    igl_component_update_viewpane(cmpn->aux_data);
+}
 
 void instrument_frame_onclick(igl_component_t *cmpn){}
 void instrument_scroll_up_onclick(igl_component_t *cmpn){}

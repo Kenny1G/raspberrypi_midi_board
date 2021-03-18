@@ -36,6 +36,7 @@ typedef struct {
     choord_t* piece; //Array of choords that make up the musical piece
     choord_pitch_t* piece_pitch; //Array of pitches that make up the piece
     unsigned int* lens; //Array of duration of each choord(should be multiple of 4)
+    const char** frame_labels; //Array of string representation of frames
     int current_frame;
 } instrument_config_t;
 

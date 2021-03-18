@@ -5,7 +5,7 @@
  * that creates buttons, view panes, and handles mouse clicks. Builds
  * on the baremetal graphics library gl.[ch] for framebuffer
  * access and configuration; trying to use both igl and gl
- * simultaneously is discouraged. Basically budget QT
+ * simultaneously is discouraged... Basically budget QT
  *
  * Author: Kenny Oseleononmen Jr. <kenny1g@stanford.edu>
  * Date: Mar 15 2021
@@ -99,6 +99,7 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
  */
 igl_component_t* igl_create_view_pane(const char* name, int start_x, int start_y,
         int end_x, int end_y, color_t color);
+
 /*
  * Sets `component` to be clickable and registers fn
  * as its on click function
@@ -124,6 +125,16 @@ void igl_set_aux(igl_component_t* component, void* aux_data);
  * @param rotation      rotation of next created component
  */
 void igl_set_next_rotation(int rotation);
+
+/* 
+ * Sets the buffer from which the viewpane of `component` will
+ * update its content
+ *
+ * @param component         component who's viewpane will get buffer
+ * @param buffer            buffer to attatch to component
+ */
+void igl_set_viewpane_buffer(igl_component_t* component,
+        const char** buffer, int bufsize);
 
 /* Getters for igl dimensions */
 unsigned int igl_get_res_width(void);

@@ -1,3 +1,4 @@
+/* Driver Program*/
 #include "assert.h"
 #include "igl.h"
 #include "uart.h"
@@ -90,22 +91,33 @@ void setup_time_buttons(void)
             igl_set_onclick(i, instrument_duration_onclick);
         }
     }
-    igl_component_t* set_frame= igl_create_view_pane
-        ("set_frame", 0, 2, 1, 2, gl_color(55,0, 179));
-    igl_set_onclick(set_frame, instrument_set_frame_onclick);
-    igl_component_draw_on_pane(set_frame, "FRAME");
 }
 
 void setup_music_frame(void)
 {
-    igl_component_t* prev_frame = igl_create_view_pane
-        ("prev_frame", 0, 3, NCOLS - 2, 5, gl_color(55,0, 179));
-    if (prev_frame == 0)
-        printf("Error creating prev_frame \n");
-    //igl_component_t* curr_frame = igl_create_view_pane
-    //    ("curr_frame", 2, 4, NCOLS - 4, 4, gl_color(55,0, 179));
-    //igl_component_t* next_frame = igl_create_view_pane
-    //    ("next_frame", 2, 5, NCOLS - 4, 5, gl_color(55,0, 179));
+    igl_component_t* frame = igl_create_view_pane
+        ("frame", 0, 3, NCOLS - 2, 5, gl_color(55,0, 179));
+    igl_set_viewpane_buffer(frame, instrument_config->frame_labels,
+            MAX_INSTRUMENT_FRAMES);
+    if (frame == 0)
+        printf("Error creating frame \n");
+
+    /* Button used for saving a frame is initially a viewpane becuase 
+     * we want it to span two columns cause that looks prettier*/
+    igl_component_t* set_frame= igl_create_view_pane
+        ("set_frame", 0, 2, 1, 2, gl_color(55,0, 179));
+    igl_set_onclick(set_frame, instrument_set_frame_onclick);
+    igl_component_draw_on_pane(set_frame, "FRAME");
+    /*
+     * Because this button is a viewpane, it's aux_data
+     * initially points to a view pane we free that and
+     * it to frame so when it's clicked it can update the frame
+     * when it is clicked
+     */
+    printf("frame aux: %x\n",(unsigned int)set_frame->aux_data);
+    free(set_frame->aux_data);
+    igl_set_aux(set_frame, frame);
+
 
     igl_component_t*  scroll_up= igl_create_component("scroll_up",
             NCOLS - 1, 4, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
@@ -139,7 +151,7 @@ void setup_ui(void)
     setup_time_buttons();
     setup_music_frame();
 
-    debug_print_igl_grid(*igl_get_config());
+    //debug_print_igl_grid(*igl_get_config());
     finish_loop();
 }
 void main(void)

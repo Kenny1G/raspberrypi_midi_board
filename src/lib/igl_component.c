@@ -80,15 +80,37 @@ void igl_component_new_viewpane(igl_component_t *component,
 
 }
 
-void igl_component_draw_on_pane(igl_component_t* component, 
-        const char* label)
+void igl_component_draw_on_pane(igl_component_t* component, const char* label)
 { 
     igl_viewpane_t *vp = (igl_viewpane_t*)component->aux_data;
     unsigned int width = component->width * vp->ncols;
     unsigned int height = component->height * vp->nrows;
     igl_component_t dummy = {label, component->x, component->y,
         width, height, component->color, IGL_CHAR, 0, 0, component->alt_color};
-    debug_print_component_meta(dummy);
+    debug_print_component_meta(&dummy);
 
     igl_component_draw(&dummy);
+}
+
+void igl_component_update_viewpane(igl_component_t* cmpn)
+{
+    igl_viewpane_t *vp = (igl_viewpane_t*)cmpn->aux_data;
+    debug_print_component_meta(cmpn);
+    printf("vp rows:%d, vp cols: %d\n", vp->nrows, vp->ncols);
+
+    for (int y = 0; y < vp->nrows; ++y) {
+        for (int x = 0; x < vp->ncols; ++x) {
+            int index = ((y + vp->start_y) * vp->ncols) + x;
+            if (index > vp->bufsize)
+                break;
+            const char* label = vp->buffer[index];
+            if (label == 0)
+                break;
+            int c_x = cmpn->x + (x * (cmpn->width + (vp->padding_x * 2)));
+            int c_y = cmpn->y + (y * (cmpn->height + (vp->padding_y * 2)));
+            igl_component_t dummy = {label, c_x, c_y, cmpn->width,
+                cmpn->height, cmpn->color, IGL_CHAR, 0, 0, cmpn->alt_color};
+            igl_component_draw(&dummy);
+        }
+    }
 }

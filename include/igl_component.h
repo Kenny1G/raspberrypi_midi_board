@@ -36,6 +36,11 @@ typedef struct {
     igl_component_t *component;
     int nrows;
     int ncols;
+    const char** buffer;
+    int bufsize;
+    int start_y; //row of buffer to start displaying from
+    int padding_x;
+    int padding_y;
 }igl_viewpane_t;
 
 /*
@@ -72,7 +77,18 @@ void igl_component_new_viewpane(igl_component_t *component,
  */
 void igl_component_draw(igl_component_t* component);
 
-void igl_component_draw_on_pane(igl_component_t* view_pane_component, 
-        const char* label);
+/*
+ * Writes a static label on a viewpane
+ * 
+ * @param component     viewpane componenet
+ * @param label         string to write on viewpane
+ */
+void igl_component_draw_on_pane(igl_component_t* component, const char* label);
 
+/*
+ * Refresh a dynamic viewpanes content
+ *
+ * @param component     viewpane component to refresh
+ */
+void igl_component_update_viewpane(igl_component_t* component);
 #endif
