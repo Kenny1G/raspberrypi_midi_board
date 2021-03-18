@@ -114,16 +114,22 @@ igl_component_t* igl_create_view_pane(const char* name, int start_x, int start_y
     int s_x, s_y, e_x, e_y;
     get_start(start_x, start_y, &s_x, &s_y);
     get_start(end_x, end_y, &e_x, &e_y);
-    unsigned int width = (e_x - s_x) + cfg.c_width ;
-    unsigned int height = (e_y - s_y) + cfg.c_height;
 
     if (cfg.grid[(start_y * cfg.col) + start_x] == 0) {
         igl_component_t* pRet = igl_component_new(name, s_x, s_y, 
-                width, height, IGL_VIEW_PANE, IGL_RECT, color);
-        cfg.grid[(start_y * cfg.col) + start_x] = pRet;
-
-        igl_component_draw(pRet);
-        return pRet; 
+                cfg.c_width, cfg.c_height, IGL_VIEW_PANE, IGL_RECT, color);
+        igl_component_new_viewpane(pRet, e_x, e_y);
+        for (int y = start_y; y <= end_y; ++y) {
+            for (int x = start_x; x <= end_x; ++x) {
+                if (cfg.grid[(y * cfg.col) + x] == 0)
+                    cfg.grid[(y * cfg.col) + x] = pRet;
+                else {
+                    free(pRet);
+                    return 0;
+                }
+            }
+        }
+       return pRet; 
     }
     return 0;
 }

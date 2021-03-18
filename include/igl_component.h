@@ -31,6 +31,13 @@ struct  igl_component{
     int rotation;
 };
 
+/*A viewpane is a component spread across multiple rows and columns*/
+typedef struct {
+    igl_component_t *component;
+    int nrows;
+    int ncols;
+}igl_viewpane_t;
+
 /*
  * Initializes a new igl component and returns a pointer to it
  *
@@ -50,7 +57,18 @@ igl_component_t *igl_component_new(const char* name, int x, int y,
         color_t color);
 
 /*
+ * Creates and draws a new viewpane that goes from the components x and y
+ * to end_x and y
+ *
+ * @param component         component to create viewpane from
+ * @param end_x             end x coordinate of view pane
+ * @param end_y             end y coordinate of view pane       
+ */
+void igl_component_new_viewpane(igl_component_t *component, int end_x, int end_y);
+
+/*
  * Draws `component` to the framebuffer based on it's current state
  */
 void igl_component_draw(igl_component_t* component);
+
 #endif

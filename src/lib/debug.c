@@ -32,3 +32,14 @@ void debug_print_mouse_event(mouse_event_t evt) {
            evt.y_overflow, evt.left, evt.middle, evt.right );
     free(action);
 }
+
+void debug_print_igl_grid(igl_config_t cfg) 
+{
+    for (int y = 0; y < cfg.row; ++y) {
+        for (int x = 0; x < cfg.col; ++x) {
+            int index = (y * cfg.col) + x;
+            printf("%s ",cfg.grid[index]->name);
+        }
+        printf("\n");
+    }
+}

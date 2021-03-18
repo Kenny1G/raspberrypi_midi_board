@@ -87,8 +87,8 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
  * Creates a view pane component that goes from grid location
  * `start_x`, `start_y` to grid location `end_x`, `end_y`
  *
- * User is responsible for ensuring view pane does overlap 
- * another component
+ * Returns 0 if viewpane will overlap with another component
+ *
  * @param name      name of component
  * @param start_x   starting x location of component
  * @param start_y   starting y location of component

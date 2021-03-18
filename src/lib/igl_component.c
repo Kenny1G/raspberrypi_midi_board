@@ -60,3 +60,17 @@ void igl_component_draw(igl_component_t* component)
     }
 }
 
+void igl_component_new_viewpane(igl_component_t *component, int end_x, int end_y) 
+{
+    igl_viewpane_t * viewpane = malloc(sizeof(igl_viewpane_t));
+    component->aux_data = viewpane;
+    viewpane->component = component;
+    component->type = IGL_VIEW_PANE;
+    unsigned int width = (end_x - component->x) + component->width;
+    unsigned int height = (end_y - component->y) + component->height;
+
+    igl_component_t dummy = {"", component->x, component->y,
+        width, height, component->color, IGL_RECT};
+    igl_component_draw(&dummy);
+
+}

@@ -9,6 +9,7 @@
 #include "gpio_interrupts.h"
 #include "keyboard.h"
 #include "instrument.h"
+#include "debug.h"
 
 #define NROWS 6 
 #define NCOLS 11
@@ -96,6 +97,8 @@ void setup_music_frame(void)
 {
     igl_component_t* prev_frame = igl_create_view_pane
         ("prev_frame", 0, 3, NCOLS - 2, 5, gl_color(55,0, 179));
+    if (prev_frame == 0)
+        printf("Error creating prev_frame \n");
     //igl_component_t* curr_frame = igl_create_view_pane
     //    ("curr_frame", 2, 4, NCOLS - 4, 4, gl_color(55,0, 179));
     //igl_component_t* next_frame = igl_create_view_pane
@@ -133,6 +136,7 @@ void setup_ui(void)
     setup_time_buttons();
     setup_music_frame();
 
+    debug_print_igl_grid(*igl_get_config());
     finish_loop();
 }
 void main(void)

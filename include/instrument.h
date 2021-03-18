@@ -46,25 +46,17 @@ typedef struct {
 void instrument_init(void);
 
 /*
- * Allocates space for the next frame and updates
- * cfg.current_frame
+ * Allocates space for the next frame and updates cfg.current_frame
  */
 void next_frame(void);
 
 /*
- * Onclick function for when a note component is clicked
+ * Onclick functions for when a component is clicked
  *
- * @param cmpn      note component that is clicked
+ * @param cmpn      component that is clicked
  */
 void instrument_note_onclick(igl_component_t *cmpn);
-
-/*
- * Onclick function for when a duration component is clicked
- *
- * @param cmpn      duration commponent that is clicked
- */
 void instrument_duration_onclick(igl_component_t *cmpn);
-
 void instrument_pitch_change_onclick(igl_component_t *cmpn);
 void instrument_set_frame_onclick(igl_component_t *cmpn);
 void instrument_frame_onclick(igl_component_t *cmpn);
