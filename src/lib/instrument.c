@@ -94,10 +94,13 @@ void instrument_pitch_change_onclick(igl_component_t *cmpn)
 {
     int change = *(int*)cmpn->aux_data;
     if (last_on_note_index != -1) {
-        cfg.piece_pitch[cfg.current_frame][last_on_note_index] += change;
+        int iRet = cfg.piece_pitch[cfg.current_frame][last_on_note_index];
+        iRet += change;
+        if (iRet < 1 || iRet > 8)
+            return;
         printf("change: %d, index:%d, pitch:%d\n",
-                change, last_on_note_index,
-                cfg.piece_pitch[cfg.current_frame][last_on_note_index]); 
+                change, last_on_note_index, iRet); 
+        cfg.piece_pitch[cfg.current_frame][last_on_note_index] = iRet;
     }
 }
 
