@@ -96,6 +96,7 @@ void instrument_pitch_change_onclick(igl_component_t *cmpn)
     if (last_on_note_index != -1) {
         int iRet = cfg.piece_pitch[cfg.current_frame][last_on_note_index];
         iRet += change;
+        /*Cap pitch at 1 and 8*/
         if (iRet < 1 || iRet > 8)
             return;
         printf("change: %d, index:%d, pitch:%d\n",
@@ -107,7 +108,7 @@ void instrument_pitch_change_onclick(igl_component_t *cmpn)
 void instrument_duration_onclick(igl_component_t *cmpn)
 {
     int duration = *((int*)cmpn->aux_data);
-    /*Toggle the note in the choord*/
+    /*Set frames duration*/
     cfg.lens[cfg.current_frame] = duration;
     printf("duration work?: %d\n",
         cfg.lens[cfg.current_frame]);
