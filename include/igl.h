@@ -136,6 +136,16 @@ void igl_set_next_rotation(int rotation);
 void igl_set_viewpane_buffer(igl_component_t* component,
         char** buffer, int bufsize);
 
+/*
+ * Calculates the starting x and y locations for the framebuffer from the
+ * x and y index on the grid of components
+ *
+ * @param grid_x        grid x index of component
+ * @param grid_y        grid y index of component
+ * @param start_x       pointer to variable to store starting x coord
+ * @param start_y       pointer to variable to store starting y coord
+ */
+void igl_get_start(int grid_x, int grid_y, int *start_x, int *start_y);
 /* Getters for igl dimensions */
 unsigned int igl_get_res_width(void);
 unsigned int igl_get_res_height(void);

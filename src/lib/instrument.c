@@ -12,6 +12,7 @@
 #include "pwm.h"
 #include "tone.h"
 #include "pitch.h"
+#include "igl.h"
 
 
 /* Grid of all notes that correspond to components grid*/
@@ -22,6 +23,8 @@ static void populate_notes(void);
 static int last_on_note_index = -1;
 const int MAX_INSTRUMENT_FRAMES = 100;
 
+static const char* NOTES[] = {"A", "A#", "B", "C", "C#", "D",
+                       "D#", "E", "F", "F#", "G","G#"};
 
 void instrument_init(void)
 {
@@ -118,13 +121,20 @@ void instrument_note_onclick(igl_component_t *cmpn)
         cfg.frame_labels[cfg.current_frame][0] = notes[index].name[0];
         cfg.frame_labels[cfg.current_frame][1] = notes[index].name[1];
         last_on_note_index = index;
+        igl_mouse_set_x(0);
+        igl_mouse_set_y(0);
+
+        igl_component_t dummy = {cmpn->name, cmpn->x, cmpn->y, cmpn->width,
+            cmpn->height, cmpn->alt_color, IGL_CHAR, 0, 0, cmpn->color};
+        igl_component_draw(&dummy);
+        debug_print_component_meta(cmpn);
+
     }
     else {
         last_on_note_index = -1;
         cfg.piece_pitch[cfg.current_frame][index] = 4;
     }
 
-    printf("x:%d, y:%d, note work?: %d\n", x, y, is_on);
     cfg.piece[cfg.current_frame][index] = is_on;
 }
 
@@ -137,8 +147,6 @@ void instrument_pitch_change_onclick(igl_component_t *cmpn)
         /*Cap pitch at 1 and 8*/
         if (iRet < 1 || iRet > 8)
             return;
-        printf("change: %d, index:%d, pitch:%d\n",
-                change, last_on_note_index, iRet); 
         cfg.piece_pitch[cfg.current_frame][last_on_note_index] = iRet;
     }
 }
@@ -148,14 +156,26 @@ void instrument_duration_onclick(igl_component_t *cmpn)
     int duration = *((int*)cmpn->aux_data);
     /*Set frames duration*/
     cfg.lens[cfg.current_frame] = duration;
-    printf("duration work?: %d\n",
-        cfg.lens[cfg.current_frame]);
 }
 
+static void reset_notes_view(void)
+{
+    int c = 0;
+    for (int y = 0; y < 3; ++y) {
+        for (int x = 3; x < 7; ++x) {
+            int start_x, start_y;
+            igl_get_start(x, y, &start_x, &start_y);
+            color_t purp = gl_color(55, 0, 179);
+            igl_component_t dummy = {NOTES[c++], start_x, start_y, igl_get_c_width(), igl_get_c_height(), purp, IGL_CHAR, 0, 0, ~purp};
+            igl_component_draw(&dummy);
+        }
+    }
+}
 void instrument_set_frame_onclick(igl_component_t *cmpn) 
 {
     next_frame();
     igl_component_update_viewpane(cmpn->aux_data);
+    reset_notes_view();
 }
 
 void instrument_frame_onclick(igl_component_t *cmpn){}

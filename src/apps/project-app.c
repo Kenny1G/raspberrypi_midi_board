@@ -39,6 +39,7 @@ void setup_note_buttons(void)
     int nrows = 3;
     int ncols = 4;
     /*Populate igl with note components*/
+
     for (int y = y_start; y < y_start + nrows; ++y) {
         for (int x = x_start; x < x_start + ncols; ++x) {
             /*
@@ -51,6 +52,7 @@ void setup_note_buttons(void)
             aux[2] = ncols;
             igl_component_t*  i = igl_create_component(NOTES[c++], x, y, 
                     IGL_BUTTON, IGL_CHAR, gl_color(55, 0, 179));
+            i->alt_color = ~i->color;
             igl_set_aux(i, aux);
             igl_set_onclick(i, instrument_note_onclick);
         }

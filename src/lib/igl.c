@@ -9,16 +9,6 @@ static igl_config_t cfg;
 static bool left_pressed;
 static int nextRotation;
 
-/*
- * Calculates the starting x and y locations for the framebuffer from the
- * x and y index on the grid of components
- *
- * @param grid_x        grid x index of component
- * @param grid_y        grid y index of component
- * @param start_x       pointer to variable to store starting x coord
- * @param start_y       pointer to variable to store starting y coord
- */
-static void get_start(int grid_x, int grid_y, int *start_x, int *start_y);
 
 void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int row, unsigned int col, color_t background,
@@ -57,8 +47,6 @@ int igl_update_mouse(mouse_event_t evt)
         unsigned int grid_y = igl_mouse_get_y() / (gl_get_height() / cfg.row);
         igl_component_t *comp = cfg.grid[(grid_y * cfg.col) + grid_x];
         if (comp != 0 && comp->fn != 0) {
-            printf("Trying to call something: name: %s function: %x\n",
-                    comp->name, (unsigned int)comp->fn);
             comp->fn(comp); 
         }
         left_pressed = false;
@@ -89,7 +77,7 @@ void igl_clean(void)
 
 igl_config_t *igl_get_config(void) { return &cfg; }
 
-static void get_start(int grid_x, int grid_y, int *start_x, int *start_y) {
+void igl_get_start(int grid_x, int grid_y, int *start_x, int *start_y) {
     /*Calculate x and y of the component*/
     unsigned int cell_width = gl_get_width() / cfg.col;
     unsigned int cell_height = gl_get_height() / cfg.row;
@@ -105,7 +93,7 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
 { 
     int start_x;
     int start_y;
-    get_start(x, y, &start_x, &start_y);
+    igl_get_start(x, y, &start_x, &start_y);
     if (cfg.grid[(y * cfg.col) + x] == 0) {
         igl_component_t* pRet = igl_component_new(name, start_x, start_y, 
                 cfg.c_width, cfg.c_height, type, shape, color);
@@ -123,8 +111,8 @@ igl_component_t* igl_create_view_pane(const char* name, int start_x, int start_y
                                       int end_x, int end_y, color_t color)
 {
     int s_x, s_y, e_x, e_y;
-    get_start(start_x, start_y, &s_x, &s_y);
-    get_start(end_x, end_y, &e_x, &e_y);
+    igl_get_start(start_x, start_y, &s_x, &s_y);
+    igl_get_start(end_x, end_y, &e_x, &e_y);
     int ncols = end_x -start_x +1;
     int nrows = end_y -start_y +1;
 

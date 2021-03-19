@@ -89,13 +89,21 @@ void igl_mouse_update(mouse_event_t evt)
   draw_mouse();
 }
 
-
-int igl_mouse_get_x(void)
-{
-    return mp.x;
+void igl_mouse_set_x(int x) 
+{ 
+    clear_mouse();
+    mp.x = x; 
+    draw_mouse();
 }
 
-int igl_mouse_get_y(void)
-{
-    return mp.y;
+void igl_mouse_set_y(int y) 
+{ 
+    clear_mouse();
+    mp.y = y; 
+    draw_mouse();
 }
+
+
+int igl_mouse_get_x(void) { return mp.x; }
+
+int igl_mouse_get_y(void) { return mp.y; }
