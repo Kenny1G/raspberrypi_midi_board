@@ -1,4 +1,4 @@
-MY_MODULES = igl.o igl_mouse.o igl_component.o debug.o instrument.o audio.o
+MY_MODULES = igl.o igl_mouse.o igl_component.o debug.o instrument.o
 
 # Targets for this makefile
 APPLICATION = build/project-app.bin
@@ -19,7 +19,7 @@ export freestanding = -ffreestanding -nostdinc \
 CFLAGS	= -I$(CS107E)/include -Iinclude -Og -g -std=c99 $$warn $$freestanding
 CFLAGS += -mapcs-frame -fno-omit-frame-pointer -mpoke-function-name
 LDFLAGS	= -nostdlib -T src/boot/memmap -L$(CS107E)/lib -L.
-LDLIBS 	= -lpi -lgpugl -lgcc 
+LDLIBS 	= -lpi -lgpugl -lpiextra -lgcc 
 
 # Extract binary from elf
 build/%.bin: build/%.elf | build
