@@ -22,8 +22,17 @@ static void populate_notes(void);
 static int last_on_note_index = -1;
 const int MAX_INSTRUMENT_FRAMES = 100;
 
+
 void instrument_init(void)
 {
+    /*Initialize pwm */
+    gpio_set_function( 40, GPIO_FUNC_ALT0 ); // PWM0
+    gpio_set_function( 45, GPIO_FUNC_ALT0 ); // PWM1
+    gpio_set_function( 18, GPIO_FUNC_ALT5 );
+
+    pwm_init();
+    pwm_set_clock( F_AUDIO );
+
     /*Initialize space for shell*/
     populate_notes();
     /*piece is an array of choords of max length*/
@@ -34,13 +43,16 @@ void instrument_init(void)
     memset(cfg.piece_pitch, 0, MAX_INSTRUMENT_FRAMES * sizeof(choord_pitch_t*));
 
     cfg.lens = malloc(MAX_INSTRUMENT_FRAMES * sizeof(int));
-    memset(cfg.lens, 0, MAX_INSTRUMENT_FRAMES * sizeof(int));
+    for (int i = 0; i < MAX_INSTRUMENT_FRAMES; ++i) {
+        cfg.lens[i] = 1;
+    }
 
     cfg.frame_labels  = malloc(MAX_INSTRUMENT_FRAMES * sizeof(char*));
     memset(cfg.frame_labels, 0, MAX_INSTRUMENT_FRAMES * sizeof(char*));
 
     cfg.current_frame = -1;
     next_frame();
+
 }
 
 void instrument_clean()
@@ -164,5 +176,32 @@ void instrument_scroll_down_onclick(igl_component_t *cmpn)
     igl_component_update_viewpane(vp);
 }
 void instrument_play_frame_onclick(igl_component_t *cmpn){}
-void instrument_play_all_onclick(igl_component_t *cmpn){}
+
+static void play_piece(unsigned int* tones)
+{ 
+    for (int i = 0; i < cfg.current_frame; ++i) {
+        tone(tones[i]);
+        timer_delay_ms(1000);
+    }
+    tone(0);
+    free(tones);
+}
+
+void instrument_play_all_onclick(igl_component_t *cmpn)
+{
+    unsigned int* tones = malloc(sizeof(int) * cfg.current_frame);
+    for (int frame = 0; frame < cfg.current_frame; ++frame) {
+        /* Since we are only playing one tone we just find a tone
+         * that's on and add it to the play queue*/
+        for (int i = 0; i < 12; ++i) {
+            int is_on = cfg.piece[frame][i];
+            note_t note = notes[i];
+            int pitch = cfg.piece_pitch[frame][i];
+            if (is_on) {
+                tones[frame] = note.base_freq * pitch;
+            }
+        }
+    }
+    play_piece(tones);
+}
 
