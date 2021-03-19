@@ -1,8 +1,8 @@
-MY_MODULES = igl.o igl_mouse.o igl_component.o debug.o instrument.o
+MY_MODULES = igl.o igl_mouse.o igl_component.o debug.o instrument.o audio.o
 
 # Targets for this makefile
 APPLICATION = build/project-app.bin
-TEST = 
+TEST = build/test_audio.bin
 TESTLIB = build/test_igl.bin
 
 all : $(APPLICATION) $(TEST) $(TESTLIB)
