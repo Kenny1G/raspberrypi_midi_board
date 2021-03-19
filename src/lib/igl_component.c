@@ -93,9 +93,9 @@ void igl_component_draw_on_pane(igl_component_t* component, const char* label)
     igl_component_draw(&dummy);
 }
 
-void igl_component_update_viewpane(igl_component_t* cmpn)
+void igl_component_update_viewpane(igl_viewpane_t* vp)
 {
-    igl_viewpane_t *vp = (igl_viewpane_t*)cmpn->aux_data;
+    igl_component_t* cmpn = vp->component;
 
     for (int y = 0; y < vp->nrows; ++y) {
         for (int x = 0; x < vp->ncols; ++x) {
@@ -103,8 +103,6 @@ void igl_component_update_viewpane(igl_component_t* cmpn)
             if (index > vp->bufsize)
                 break;
             const char* label = vp->buffer[index];
-            if (label == 0)
-                break;
             int c_x = cmpn->x + (x * (cmpn->width + (vp->padding_x * 2)));
             int c_y = cmpn->y + (y * (cmpn->height + (vp->padding_y * 2)));
             igl_component_t dummy = {label, c_x, c_y, cmpn->width,

@@ -90,5 +90,5 @@ void igl_component_draw_on_pane(igl_component_t* component, const char* label);
  *
  * @param component     viewpane component to refresh
  */
-void igl_component_update_viewpane(igl_component_t* component);
+void igl_component_update_viewpane(igl_viewpane_t* vp);
 #endif

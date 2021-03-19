@@ -12,4 +12,6 @@ void debug_print_mouse_event(mouse_event_t evt);
 void debug_print_igl_grid(igl_config_t cfg);
 
 void debug_print_component_meta(igl_component_t *c);
+
+void debug_print_viewpane_meta(igl_viewpane_t *vp);
 #endif

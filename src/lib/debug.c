@@ -73,3 +73,20 @@ void debug_print_component_meta(igl_component_t *c)
             (unsigned int)comp.aux_data,
             comp.rotation);
 }
+void debug_print_viewpane_meta(igl_viewpane_t *vp)
+{
+    if (vp == 0) {
+        printf("NA\n");
+        return;
+    }
+    igl_viewpane_t comp = *vp;
+    printf("\ncomponent: %x, nrows: %d, ncols: %d, buffer: %s, bufsize: %d, start_y: %d, padding_x: %d, padding_y: %d\n",
+    (unsigned int) comp.component,
+    comp.nrows,
+    comp.ncols,
+    *comp.buffer,
+    comp.bufsize,
+    comp.start_y, //row of buffer to start displaying from
+    comp.padding_x,
+    comp.padding_y);
+}

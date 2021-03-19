@@ -74,10 +74,11 @@ instrument_config_t *instrument_get_config(void) { return &cfg; }
 
 void next_frame(void)
 {
+    static int i = 0;
     if (cfg.current_frame != -1) {
         cfg.frame_labels[cfg.current_frame] = malloc(2);
         memset(cfg.frame_labels[cfg.current_frame], 0, 2);
-        cfg.frame_labels[cfg.current_frame][0] = 'F';
+        cfg.frame_labels[cfg.current_frame][0] = 'A' + (i++ % 26);
     }
     /*12 ints to hold the on state and pitch of each note in a choord*/
     int sz = sizeof(int) * 12;
@@ -146,8 +147,22 @@ void instrument_set_frame_onclick(igl_component_t *cmpn)
 }
 
 void instrument_frame_onclick(igl_component_t *cmpn){}
-void instrument_scroll_up_onclick(igl_component_t *cmpn){}
-void instrument_scroll_down_onclick(igl_component_t *cmpn){}
+
+void instrument_scroll_up_onclick(igl_component_t *cmpn)
+{
+    igl_viewpane_t *vp = (igl_viewpane_t*)cmpn->aux_data;
+    debug_print_viewpane_meta(vp);
+    vp->start_y = (vp->start_y == 0)?  vp->start_y : vp->start_y - 1 ;
+    igl_component_update_viewpane(vp);
+}
+
+void instrument_scroll_down_onclick(igl_component_t *cmpn)
+{
+    igl_viewpane_t *vp = (igl_viewpane_t*)cmpn->aux_data;
+    debug_print_viewpane_meta(vp);
+    vp->start_y = (vp->start_y == 10)? vp->start_y : vp->start_y + 1 ;
+    igl_component_update_viewpane(vp);
+}
 void instrument_play_frame_onclick(igl_component_t *cmpn){}
 void instrument_play_all_onclick(igl_component_t *cmpn){}
 
