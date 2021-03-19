@@ -127,7 +127,6 @@ void instrument_note_onclick(igl_component_t *cmpn)
         igl_component_t dummy = {cmpn->name, cmpn->x, cmpn->y, cmpn->width,
             cmpn->height, cmpn->alt_color, IGL_CHAR, 0, 0, cmpn->color};
         igl_component_draw(&dummy);
-        debug_print_component_meta(cmpn);
 
     }
     else {
@@ -183,7 +182,6 @@ void instrument_frame_onclick(igl_component_t *cmpn){}
 void instrument_scroll_up_onclick(igl_component_t *cmpn)
 {
     igl_viewpane_t *vp = (igl_viewpane_t*)cmpn->aux_data;
-    debug_print_viewpane_meta(vp);
     vp->start_y = (vp->start_y == 0)?  vp->start_y : vp->start_y - 1 ;
     igl_component_update_viewpane(vp);
 }
@@ -191,7 +189,6 @@ void instrument_scroll_up_onclick(igl_component_t *cmpn)
 void instrument_scroll_down_onclick(igl_component_t *cmpn)
 {
     igl_viewpane_t *vp = (igl_viewpane_t*)cmpn->aux_data;
-    debug_print_viewpane_meta(vp);
     vp->start_y = (vp->start_y == 10)? vp->start_y : vp->start_y + 1 ;
     igl_component_update_viewpane(vp);
 }
