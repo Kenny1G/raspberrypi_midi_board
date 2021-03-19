@@ -83,14 +83,4 @@ void instrument_scroll_down_onclick(igl_component_t *cmpn);
 void instrument_play_frame_onclick(igl_component_t *cmpn);
 /*Plays entire piece*/
 void instrument_play_all_onclick(igl_component_t *cmpn);
-
-/*
- * Receives a pointer to the beginning of an array of note 
- * configurations and plays the sequence of notes
- * 
- * @param note_sequence   a pointer to the beginning of an array of note configs
- * @param seq_len         length of note_sequence
-*/
-void play_notes(note_t *note_sequence, unsigned int seq_len);
-
 #endif
