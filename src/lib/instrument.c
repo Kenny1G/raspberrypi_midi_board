@@ -36,8 +36,8 @@ void instrument_init(void)
     cfg.lens = malloc(MAX_INSTRUMENT_FRAMES * sizeof(int));
     memset(cfg.lens, 0, MAX_INSTRUMENT_FRAMES * sizeof(int));
 
-    cfg.frame_labels  = malloc(MAX_INSTRUMENT_FRAMES * sizeof(const char*));
-    memset(cfg.frame_labels, 0, MAX_INSTRUMENT_FRAMES * sizeof(const char*));
+    cfg.frame_labels  = malloc(MAX_INSTRUMENT_FRAMES * sizeof(char*));
+    memset(cfg.frame_labels, 0, MAX_INSTRUMENT_FRAMES * sizeof(char*));
 
     cfg.current_frame = -1;
     next_frame();
@@ -48,15 +48,13 @@ void instrument_clean()
     int i = cfg.current_frame;
     while (i >= 0) {
         free(cfg.piece_pitch[i]);
+        free(cfg.frame_labels[i]);
         free(cfg.piece[i--]);
     }
     free(cfg.piece);
-
     free(cfg.piece_pitch);
-
-    free(cfg.lens);
-
     free(cfg.frame_labels);
+    free(cfg.lens);
 }
 
 static void populate_notes(void)
@@ -76,6 +74,12 @@ instrument_config_t *instrument_get_config(void) { return &cfg; }
 
 void next_frame(void)
 {
+    static int i = 0;
+    if (cfg.current_frame != -1) {
+        cfg.frame_labels[cfg.current_frame] = malloc(2);
+        memset(cfg.frame_labels[cfg.current_frame], 0, 2);
+        cfg.frame_labels[cfg.current_frame][0] = 'A' + (i++ % 26);
+    }
     /*12 ints to hold the on state and pitch of each note in a choord*/
     int sz = sizeof(int) * 12;
     cfg.piece[++cfg.current_frame] = malloc(sz);
@@ -143,59 +147,22 @@ void instrument_set_frame_onclick(igl_component_t *cmpn)
 }
 
 void instrument_frame_onclick(igl_component_t *cmpn){}
-void instrument_scroll_up_onclick(igl_component_t *cmpn){}
-void instrument_scroll_down_onclick(igl_component_t *cmpn){}
+
+void instrument_scroll_up_onclick(igl_component_t *cmpn)
+{
+    igl_viewpane_t *vp = (igl_viewpane_t*)cmpn->aux_data;
+    debug_print_viewpane_meta(vp);
+    vp->start_y = (vp->start_y == 0)?  vp->start_y : vp->start_y - 1 ;
+    igl_component_update_viewpane(vp);
+}
+
+void instrument_scroll_down_onclick(igl_component_t *cmpn)
+{
+    igl_viewpane_t *vp = (igl_viewpane_t*)cmpn->aux_data;
+    debug_print_viewpane_meta(vp);
+    vp->start_y = (vp->start_y == 10)? vp->start_y : vp->start_y + 1 ;
+    igl_component_update_viewpane(vp);
+}
 void instrument_play_frame_onclick(igl_component_t *cmpn){}
 void instrument_play_all_onclick(igl_component_t *cmpn){}
 
-/*
-//written with the help of referencing melody.c from lecture (the gitHub path is cs107e.github.io/lectures/Sensors/code/sound/melody/melody.c)
-void play_notes(note_t *note_sequence, unsigned int seq_len) 
-{
-    timer_init();
-
-    gpio_init();
-    gpio_set_function( 40, GPIO_FUNC_ALT0 ); // PWM0
-    gpio_set_function( 45, GPIO_FUNC_ALT0 ); // PWM1
-    gpio_set_function( 18, GPIO_FUNC_ALT5 ); // PWM0
-
-    pwm_init();
-    pwm_set_clock( F_AUDIO );
-
-    //play the sequence of notes
-    for (unsigned int curr_note = 0; curr_note < seq_len; curr_note++) {
-        //save the type of the current note (quarter note, eighth note, etc)
-        unsigned int this_note_type = *note_sequence -> note_len;
-
-        // to calculate the note duration, take one second
-        // divided by the note type.
-        //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-        int note_dur = 1000/this_note_type;
-
-
-
-        //TO-DO: DELETE THIS STUFF BECAUSE MIGHT NOT WORK
-        // //the beginning of the string that we will concatenate onto for the note/pitch
-        // //size is 8, because for example "NOTE_C4" has 7 chars, and the last index holds the null terminator
-        // unsigned char beginning[8] = "NOTE_";
-
-        // //we will append onto specific_note in order to get the full string that represents the note/pitch identity
-        // char *specific_note = beginning;
-        
-        //TO-DO: FIGURE A WAY TO INDEX INTO AN ARRAY OF THE NOTE PITCHES AND THEN PASS IN THAT VALUE INTO tone() BELOW
-        tone();
-
-
-
-
-        timer_delay_ms(note_dur);
-
-        // to distinguish the notes, set a minimum time between them.
-        // the note's duration + 30% seems to work well:
-        int pauseBetweenNotes = note_dur * 0.30;
-        tone(0); // 0 turns off sound
-        timer_delay_ms(pauseBetweenNotes);
-    }
-    
-}
-*/

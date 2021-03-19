@@ -22,7 +22,7 @@ static void get_start(int grid_x, int grid_y, int *start_x, int *start_y);
 
 void igl_init(unsigned int res_width, unsigned int res_height,
         unsigned int row, unsigned int col, color_t background,
-        unsigned int c_width, unsigned int c_height) 
+        unsigned int c_width, unsigned int c_height)
 {
     /* 
      * TODO(kenny): add in an error check that ensures 
@@ -120,7 +120,8 @@ igl_component_t*  igl_create_component(const char* name, int x, int y,
 }
 
 igl_component_t* igl_create_view_pane(const char* name, int start_x, int start_y,
-        int end_x, int end_y, color_t color) {
+                                      int end_x, int end_y, color_t color)
+{
     int s_x, s_y, e_x, e_y;
     get_start(start_x, start_y, &s_x, &s_y);
     get_start(end_x, end_y, &e_x, &e_y);
@@ -162,7 +163,7 @@ void igl_set_next_rotation(int rotation)
 }
 
 void igl_set_viewpane_buffer(igl_component_t* component,
-        const char** buffer, int bufsize)
+        char** buffer, int bufsize)
 {
     igl_viewpane_t* vp = (igl_viewpane_t*)component->aux_data;
     vp->buffer = buffer;

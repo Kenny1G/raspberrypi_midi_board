@@ -22,7 +22,8 @@ static const char* NOTES[] = {"A", "A#", "B", "C", "C#", "D",
 static const char* DURATIONS[] = {"WN", "HN", "QN", "EN"};
 static instrument_config_t *instrument_config;
 
-void finish_loop(void) {
+void finish_loop(void) 
+{
     while(1) {
         mouse_event_t evt = mouse_read_event();
         igl_update_mouse(evt);
@@ -116,19 +117,20 @@ void setup_music_frame(void)
      * it to frame so when it's clicked it can update the frame
      * when it is clicked
      */
-    printf("frame aux: %x\n",(unsigned int)set_frame->aux_data);
     free(set_frame->aux_data);
-    igl_set_aux(set_frame, frame);
+    igl_set_aux(set_frame, frame->aux_data);
 
 
     igl_component_t*  scroll_up= igl_create_component("scroll_up",
             NCOLS - 1, 4, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
     igl_set_onclick(scroll_up, instrument_scroll_up_onclick);
+    igl_set_aux(scroll_up, frame->aux_data);
 
     igl_set_next_rotation(180);
     igl_component_t*  scroll_down= igl_create_component("scroll_down",
             NCOLS - 1, 5, IGL_BUTTON, IGL_TRIA, gl_color(55, 0, 179));
     igl_set_onclick(scroll_down, instrument_scroll_down_onclick);
+    igl_set_aux(scroll_down, frame->aux_data);
 }
 
 void setup_play(void)

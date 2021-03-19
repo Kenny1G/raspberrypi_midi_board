@@ -36,7 +36,7 @@ typedef struct {
     igl_component_t *component;
     int nrows;
     int ncols;
-    const char** buffer;
+    char** buffer;
     int bufsize;
     int start_y; //row of buffer to start displaying from
     int padding_x;
@@ -90,5 +90,5 @@ void igl_component_draw_on_pane(igl_component_t* component, const char* label);
  *
  * @param component     viewpane component to refresh
  */
-void igl_component_update_viewpane(igl_component_t* component);
+void igl_component_update_viewpane(igl_viewpane_t* vp);
 #endif

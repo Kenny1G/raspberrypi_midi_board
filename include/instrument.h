@@ -36,7 +36,7 @@ typedef struct {
     choord_t* piece; //Array of choords that make up the musical piece
     choord_pitch_t* piece_pitch; //Array of pitches that make up the piece
     unsigned int* lens; //Array of duration of each choord(should be multiple of 4)
-    const char** frame_labels; //Array of string representation of frames
+    char** frame_labels; //Array of string representation of frames
     int current_frame;
 } instrument_config_t;
 
@@ -65,23 +65,22 @@ instrument_config_t* instrument_get_config(void);
  *
  * @param cmpn      component that is clicked
  */
+/* Toggles notes inclusion in current frame*/
 void instrument_note_onclick(igl_component_t *cmpn);
+/*Sets duration of current frame*/
 void instrument_duration_onclick(igl_component_t *cmpn);
+/*Sets pitch of last set note*/
 void instrument_pitch_change_onclick(igl_component_t *cmpn);
+/* Creates new frame and shows current one on frame viewpane*/
 void instrument_set_frame_onclick(igl_component_t *cmpn);
+/* Switched to previously saved frame*/
 void instrument_frame_onclick(igl_component_t *cmpn);
+/* Scrolls frame view pane up*/
 void instrument_scroll_up_onclick(igl_component_t *cmpn);
+/* Scrolls frame view pane down*/
 void instrument_scroll_down_onclick(igl_component_t *cmpn);
+/*Plays current choord*/
 void instrument_play_frame_onclick(igl_component_t *cmpn);
+/*Plays entire piece*/
 void instrument_play_all_onclick(igl_component_t *cmpn);
-
-/*
- * Receives a pointer to the beginning of an array of note 
- * configurations and plays the sequence of notes
- * 
- * @param note_sequence   a pointer to the beginning of an array of note configs
- * @param seq_len         length of note_sequence
-*/
-void play_notes(note_t *note_sequence, unsigned int seq_len);
-
 #endif
