@@ -65,14 +65,23 @@ instrument_config_t* instrument_get_config(void);
  *
  * @param cmpn      component that is clicked
  */
+/* Toggles notes inclusion in current frame*/
 void instrument_note_onclick(igl_component_t *cmpn);
+/*Sets duration of current frame*/
 void instrument_duration_onclick(igl_component_t *cmpn);
+/*Sets pitch of last set note*/
 void instrument_pitch_change_onclick(igl_component_t *cmpn);
+/* Creates new frame and shows current one on frame viewpane*/
 void instrument_set_frame_onclick(igl_component_t *cmpn);
+/* Switched to previously saved frame*/
 void instrument_frame_onclick(igl_component_t *cmpn);
+/* Scrolls frame view pane up*/
 void instrument_scroll_up_onclick(igl_component_t *cmpn);
+/* Scrolls frame view pane down*/
 void instrument_scroll_down_onclick(igl_component_t *cmpn);
+/*Plays current choord*/
 void instrument_play_frame_onclick(igl_component_t *cmpn);
+/*Plays entire piece*/
 void instrument_play_all_onclick(igl_component_t *cmpn);
 
 /*
