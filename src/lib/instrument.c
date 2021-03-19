@@ -180,8 +180,9 @@ void instrument_play_frame_onclick(igl_component_t *cmpn){}
 static void play_piece(unsigned int* tones)
 { 
     for (int i = 0; i < cfg.current_frame; ++i) {
-        tone(tones[i]);
-        timer_delay_ms(1000);
+        if (tones[i] != 0)
+            tone(tones[i]);
+        timer_delay_ms(1000 / cfg.lens[i]);
     }
     tone(0);
     free(tones);
@@ -190,6 +191,7 @@ static void play_piece(unsigned int* tones)
 void instrument_play_all_onclick(igl_component_t *cmpn)
 {
     unsigned int* tones = malloc(sizeof(int) * cfg.current_frame);
+    memset(tones, 0, sizeof(int) * cfg.current_frame);
     for (int frame = 0; frame < cfg.current_frame; ++frame) {
         /* Since we are only playing one tone we just find a tone
          * that's on and add it to the play queue*/
