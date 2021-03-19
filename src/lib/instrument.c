@@ -86,12 +86,6 @@ instrument_config_t *instrument_get_config(void) { return &cfg; }
 
 void next_frame(void)
 {
-    static int i = 0;
-    if (cfg.current_frame != -1) {
-        cfg.frame_labels[cfg.current_frame] = malloc(2);
-        memset(cfg.frame_labels[cfg.current_frame], 0, 2);
-        cfg.frame_labels[cfg.current_frame][0] = 'A' + (i++ % 26);
-    }
     /*12 ints to hold the on state and pitch of each note in a choord*/
     int sz = sizeof(int) * 12;
     cfg.piece[++cfg.current_frame] = malloc(sz);
@@ -100,6 +94,9 @@ void next_frame(void)
     cfg.piece_pitch[cfg.current_frame] = malloc(sz);
     for(int i = 0; i < 12; ++i)
         cfg.piece_pitch[cfg.current_frame][i] = 4;
+
+    cfg.frame_labels[cfg.current_frame] = malloc(3);
+    memset(cfg.frame_labels[cfg.current_frame], 0, 3);
 }
 
 /* On click buttons*/
@@ -117,8 +114,11 @@ void instrument_note_onclick(igl_component_t *cmpn)
      * Set note as last set to on
      * If note is set to off, reset it's pitch to 4
      */
-    if (is_on)
+    if (is_on) {
+        cfg.frame_labels[cfg.current_frame][0] = notes[index].name[0];
+        cfg.frame_labels[cfg.current_frame][1] = notes[index].name[1];
         last_on_note_index = index;
+    }
     else {
         last_on_note_index = -1;
         cfg.piece_pitch[cfg.current_frame][index] = 4;
